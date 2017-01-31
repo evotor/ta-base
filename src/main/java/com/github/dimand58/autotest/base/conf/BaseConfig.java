@@ -11,7 +11,7 @@ import ru.qatools.properties.PropertyLoader;
 public class BaseConfig {
 
   public static final IConfigTesting TESTING = PropertyLoader.newInstance().populate(IConfigTesting.class);
-
+  private static final String PATH_TO_ENVIRONMENT_FILE = "environment.properties";
   private static Properties allProperties;
 
   static {
@@ -26,7 +26,7 @@ public class BaseConfig {
       try (
           InputStream stream = BaseConfig.class
               .getClassLoader()
-              .getResourceAsStream(TESTING.getPropertiesFilePath())
+              .getResourceAsStream(PATH_TO_ENVIRONMENT_FILE)
       ) {
         allProperties.load(stream);
         allProperties.putAll(System.getProperties());
