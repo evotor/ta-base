@@ -9,7 +9,7 @@ import org.hamcrest.StringDescription;
 public class HamcrestWrapper {
 
   public static <T> void wrapAssertion(String reason, T actual, Matcher<? super T> matcher) {
-    BaseAllureListener.execAndFireStep(String.format("ПРОВЕРКА: %s (%s)",
+    BaseAllureListener.execAndFireStep(String.format("ASSERTION: %s (%s)",
         reason,
         new StringDescription().appendDescriptionOf(matcher)),
         () -> MatcherAssert.assertThat(reason, actual, matcher)
@@ -18,7 +18,7 @@ public class HamcrestWrapper {
 
   public static void wrapAssertion(String reason, boolean assertion) {
     BaseAllureListener.execAndFireStep(
-        "ПРОВЕРКА: " + reason,
+        "ASSERTION: " + reason,
         () -> MatcherAssert.assertThat(reason, assertion)
     );
   }

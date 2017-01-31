@@ -1,7 +1,5 @@
 package com.github.dimand58.autotest.base.cucumber;
 
-import com.github.dimand58.autotest.base.context.BaseContextStore;
-
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -57,6 +55,10 @@ import ru.yandex.qatools.allure.model.DescriptionType;
 import ru.yandex.qatools.allure.model.SeverityLevel;
 import ru.yandex.qatools.allure.utils.AnnotationManager;
 
+/**
+ * EPAM AllureReporter which was modified and adapted for multi-threading.
+ * NEEDS   REFACTORING !!!
+ */
 // TODO Refactoring
 @Slf4j(topic = "cucumber")
 public class AllureReporter implements Reporter, Formatter {
