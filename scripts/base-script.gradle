@@ -18,9 +18,10 @@ buildscript {
 }
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
 
-compileJava {
-    options.encoding = "UTF-8"
+tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8
+    System.setProperty("file.encoding", "UTF-8")
+    options.encoding = 'UTF-8'
 }
 
 jar {
