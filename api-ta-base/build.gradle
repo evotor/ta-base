@@ -12,7 +12,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     compile group: 'org.skyscreamer', name: 'jsonassert', version: jsonAssertVersion
-    compile("io.rest-assured:json-schema-validator:$jsonvalidatorVersion") { exclude group: "javax.mail" }
+    compile group: 'io.rest-assured', name: 'json-schema-validator', version: jsonvalidatorVersion
 
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: httpComponentsVersion
 }
