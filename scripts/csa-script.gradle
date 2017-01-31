@@ -12,6 +12,7 @@ tasks.withType(Checkstyle) {
         xml.enabled true
         html.enabled false
     }
+    ignoreFailures = true
 }
 
 tasks.withType(FindBugs) {
