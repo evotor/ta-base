@@ -1,4 +1,4 @@
-package com.github.dimand58.autotest.base.context;
+package com.github.dimand58.autotest.base.cucumber;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BaseContextStore {
-  public static final ContextType<Object> CTX_VALUE = new ContextType<>("value");
+
   private static final ThreadLocal<Map<String, Map<String, Object>>> CONTEXT_MAP
       = ThreadLocal.withInitial(LinkedHashMap::new);
 

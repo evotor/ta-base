@@ -1,4 +1,4 @@
-package com.github.dimand58.autotest.base.context;
+package com.github.dimand58.autotest.base.cucumber;
 
 import lombok.Getter;
 
