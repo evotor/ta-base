@@ -1,0 +1,27 @@
+apply from: "$rootDir/scripts/base-script.gradle"
+apply from: "$rootDir/scripts/csa-script.gradle"
+apply from: "$rootDir/scripts/publishing-script.gradle"
+
+dependencies {
+    compile group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    compile files('config/lombok.config')
+    compile group: 'com.google.code.findbugs', name: 'annotations', version: findbugsVersion
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+
+    compile group: 'org.testng', name: 'testng', version: testngVersion
+    compile group: 'info.cukes', name: 'cucumber-java8', version: cucumberVersion
+    compile group: 'info.cukes', name: 'cucumber-testng', version: cucumberVersion
+
+    compile group: 'org.hamcrest', name: 'hamcrest-all', version: hamrestVersion
+    compile group: 'it.ozimov', name: 'java7-hamcrest-matchers', version: hamcrestJ7Version
+    compile group: 'org.awaitility', name: 'awaitility', version: awaitilityVersion
+
+    compile group: 'com.cedarsoftware', name: 'json-io', version: jsonIoVersion
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
+
+    compile group: 'ru.yandex.qatools.allure', name: 'allure-commons', version: allureVersion
+    compile group: 'ru.yandex.qatools.allure', name: 'allure-java-aspects', version: allureVersion
+    compile group: 'ru.qatools.commons', name: 'properties', version: propertiesVersion
+}

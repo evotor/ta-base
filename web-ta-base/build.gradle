@@ -1,0 +1,15 @@
+apply from: "$rootDir/../scripts/base-script.gradle"
+apply from: "$rootDir/../scripts/csa-script.gradle"
+apply from: "$rootDir/../scripts/publishing-script.gradle"
+
+dependencies {
+    compile group: theGroup, name: 'ta-base', version: baseVersion
+
+    compile group: 'com.codeborne', name: 'selenide', version: selenideVersion
+    compile group: 'ru.yandex.qatools.ashot', name: 'ashot', version: ashotVersion
+    compile group: 'ru.yandex.qatools.matchers', name: 'webdriver-matchers', version: wdMatchersVersion
+}
+
+checkstyle {
+    configFile = '../config/checkstyle/checkstyle.xml' as File
+}

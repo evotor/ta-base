@@ -1,0 +1,38 @@
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) { // (1)
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId this.group
+            artifactId this.name
+            version this.version
+
+            from components.java
+            artifact(javadocJar) { // (3)
+                classifier = 'javadoc'
+            }
+            artifact(sourcesJar) { // (3)
+                classifier = 'sources'
+            }
+        }
+    }
+}
+
+task rebuildAndPublish(dependsOn: ['clean', 'publishToMavenLocal'])
+
+task rebuildAndPublishSubs {
+    dependsOn gradle.includedBuilds*.task(':rebuildAndPublish')
+}
+
+task rebuildAndPublishWithSubs(dependsOn: ['rebuildAndPublishSubs', 'rebuildAndPublish'])
+

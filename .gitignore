@@ -1,0 +1,6 @@
+/build/
+/api-ta-base/build/
+/web-ta-base/build/
+**/.gradle/
+**/.idea/
+**/*.iml
