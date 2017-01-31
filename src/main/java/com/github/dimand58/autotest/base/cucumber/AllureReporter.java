@@ -187,10 +187,6 @@ public class AllureReporter implements Reporter, Formatter {
 
   @Override
   public void scenario(Scenario scenario) {
-    if (isSkipped(scenario)) {
-      STATUS.set(SKIPPED);
-      throw new SkipException("Test was marked as @skip");
-    }
     FLAG_STEPS_ALLOWED.set(true);
   }
 
@@ -543,13 +539,5 @@ public class AllureReporter implements Reporter, Formatter {
       expression = expression.replace("{" + i + "}", cells.get(i));
     }
     return expression;
-  }
-
-  public boolean isSkipped(Scenario scenario) {
-    return !scenario.getTags()
-        .stream()
-        .filter(it -> it.getName().equalsIgnoreCase("@skip"))
-        .collect(Collectors.toList())
-        .isEmpty();
   }
 }
