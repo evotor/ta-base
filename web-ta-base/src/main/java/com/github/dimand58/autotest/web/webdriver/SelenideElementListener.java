@@ -7,6 +7,7 @@ import static com.github.dimand58.autotest.base.testng.BaseAllureListener.saveLa
 
 import com.github.dimand58.autotest.web.util.SeleniumHelper;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import lombok.Synchronized;
@@ -108,7 +109,7 @@ public class SelenideElementListener implements WebDriverEventListener {
   public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
     fireStepStarted(String.format("Change %s to %s",
         element.toString().replaceFirst(REGEX_DRIVER.pattern(), ""),
-        keysToSend == null ? "" : keysToSend));
+        Objects.toString(keysToSend, "")));
   }
 
   @Override
