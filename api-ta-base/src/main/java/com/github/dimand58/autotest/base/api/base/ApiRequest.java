@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.cedarsoftware.util.io.JsonWriter;
@@ -80,7 +81,7 @@ public class ApiRequest {
           .collect(Collectors.toList()));
     }
 
-    String headersString = headers != null ? headers.toString() : "";
+    String headersString = Objects.toString(headers, "");
     String payload = JsonHelper.toJson(ApiRequestFactory.REQUEST_LAST.get().getPayload());
     try {
       payload = JsonWriter.formatJson(payload);
@@ -102,7 +103,7 @@ public class ApiRequest {
 
   private static void logResponse() {
     Response response = ApiRequestFactory.RESPONSE_LAST.get();
-    String headersString = response.getHeaders() != null ? response.getHeaders().toString() : "";
+    String headersString = Objects.toString(response.getHeaders(), "");
     AttachHelper.attachText(
         format("Response headers (HTTP %d, %d ms)", response.statusCode(), response.time()),
         headersString
