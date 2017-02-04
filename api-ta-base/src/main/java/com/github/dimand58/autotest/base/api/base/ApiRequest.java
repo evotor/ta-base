@@ -152,10 +152,10 @@ public class ApiRequest {
   public ApiRequest setPayload(Object payload) {
     if (payload instanceof Map) {
       this.payload = payload;
-      spec = spec.formParams((Map) payload).contentType(ContentType.URLENC);
+      spec = spec.formParams((Map) this.payload).contentType(ContentType.URLENC);
     } else if (payload != null) {
       this.payload = ApiRequestFactory.modifyPayload(payload);
-      spec = spec.body(payload);
+      spec = spec.body(this.payload);
     }
     return this;
   }
