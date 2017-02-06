@@ -12,10 +12,6 @@ public class SeleniumHelper {
   private static final ThreadLocal<Long> LAST_CHECK_TIMESTAMP
       = ThreadLocal.withInitial(() -> System.currentTimeMillis());
 
-  @Synchronized
-  public static void open(String url) {
-    Selenide.open(url);
-  }
 
   public static void waitWhileAjax() {
     long curTime = System.currentTimeMillis();
