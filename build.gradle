@@ -5,6 +5,7 @@ apply from: "$rootDir/scripts/publishing-script.gradle"
 dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compile files('config/lombok.config')
+    compile group: 'com.google.errorprone', name: 'error_prone_core', version: errorProneVersion
     compile group: 'com.google.code.findbugs', name: 'annotations', version: findbugsVersion
 
     compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion

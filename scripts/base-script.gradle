@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
         classpath "io.franzbecker:gradle-lombok:1.8"
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.9"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.8"
     }
 }
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
