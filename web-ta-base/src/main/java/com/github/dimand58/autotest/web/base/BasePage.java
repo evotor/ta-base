@@ -1,5 +1,7 @@
 package com.github.dimand58.autotest.web.base;
 
+import static com.codeborne.selenide.Selenide.$;
+
 import java.util.List;
 
 import com.codeborne.selenide.Condition;
@@ -16,7 +18,7 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 public abstract class BasePage {
 
-  public abstract List<SelenideElement> getKeyElements();
+  public abstract List<WebElement> getKeyElements();
 
   public abstract String getExpectedUrl();
 
@@ -34,7 +36,7 @@ public abstract class BasePage {
   }
 
   public void waitUntilLoaded(long msTimeout) {
-    getKeyElements().forEach(it -> it.waitUntil(Condition.visible, msTimeout));
+    getKeyElements().forEach(it -> $(it).waitUntil(Condition.visible, msTimeout));
   }
 
   public void waitUntilDisappeared() {
@@ -42,7 +44,7 @@ public abstract class BasePage {
   }
 
   public void waitUntilDisappeared(long msTimeout) {
-    getKeyElements().forEach(it -> it.waitWhile(Condition.visible, msTimeout));
+    getKeyElements().forEach(it -> $(it).waitWhile(Condition.visible, msTimeout));
   }
 
 }
