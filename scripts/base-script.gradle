@@ -14,9 +14,11 @@ buildscript {
     }
     dependencies {
         classpath "io.franzbecker:gradle-lombok:1.8"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.9"
     }
 }
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
+apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8

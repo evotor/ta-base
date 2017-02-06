@@ -376,6 +376,7 @@ public class AllureReporter implements Reporter, Formatter {
     }
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Description getDescriptionAnnotation(final String description) {
     return new Description() {
 
@@ -396,6 +397,7 @@ public class AllureReporter implements Reporter, Formatter {
     };
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Features getFeaturesAnnotation(final String value) {
     return new Features() {
 
@@ -411,6 +413,7 @@ public class AllureReporter implements Reporter, Formatter {
     };
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Severity getSeverityAnnotation(final SeverityLevel value) {
     return new Severity() {
 
@@ -426,6 +429,7 @@ public class AllureReporter implements Reporter, Formatter {
     };
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Issues getIssuesAnnotation(Scenario scenario) {
     List<String> issues = new ArrayList<>();
     for (Tag tag : scenario.getTags()) {
@@ -437,6 +441,7 @@ public class AllureReporter implements Reporter, Formatter {
     return issues.size() > 0 ? getIssuesAnnotation(issues) : null;
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Issues getIssuesAnnotation(List<String> issues) {
     final Issue[] values = createIssuesArray(issues);
     return new Issues() {
@@ -453,6 +458,7 @@ public class AllureReporter implements Reporter, Formatter {
     };
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Issue[] createIssuesArray(List<String> issues) {
     ArrayList<Issue> values = new ArrayList<>();
     for (final String issue : issues) {
@@ -474,6 +480,7 @@ public class AllureReporter implements Reporter, Formatter {
     return values.toArray(new Issue[values.size()]);
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private TestCaseId getTestCaseIdAnnotation(Scenario scenario) {
     for (Tag tag : scenario.getTags()) {
       Matcher matcher = PATTER_TC_ID.matcher(tag.getName());
@@ -497,6 +504,7 @@ public class AllureReporter implements Reporter, Formatter {
     return null;
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Stories getStoriesAnnotation(final String value) {
     return new Stories() {
 
@@ -512,6 +520,7 @@ public class AllureReporter implements Reporter, Formatter {
     };
   }
 
+  @SuppressWarnings("BadAnnotationImplementation")
   private Stories getStoriesAnnotation(Scenario scenario) {
     for (Tag tag : scenario.getTags()) {
       Matcher matcher = PATTERN_STORIES_ID.matcher(tag.getName());

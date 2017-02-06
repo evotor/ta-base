@@ -32,7 +32,6 @@ public class AttachHelper {
   }
 
   @Attachment(value = "{0}", type = "image/png")
-  @CheckReturnValue(when = When.NEVER)
   public static byte[] attachPng(String fileName, byte[] body) {
     return body;
   }
