@@ -1,23 +1,21 @@
-package com.github.dimand58.autotest.base.api.util;
+package com.github.dimand58.autotest.base.api.json;
 
-import com.github.dimand58.autotest.base.api.base.ApiRequestFactory;
+import static com.github.dimand58.autotest.base.api.json.JsonPathFactory.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.*;
+import java.nio.file.*;
+import java.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jayway.jsonpath.DocumentContext;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.core.*;
+import com.jayway.jsonpath.*;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 public class JsonHelper {
 
   public static <T> T fromJsonFile(String pathToFile, Class<T> clazz) {
-
     String fileContent;
     try {
       fileContent =
@@ -34,7 +32,7 @@ public class JsonHelper {
 
   public static <T> T fromJson(String json, Class<T> clazz) {
     try {
-      return MapperFactory.getDefault().readerFor(clazz).readValue(json);
+      return JsonMapperFactory.getDefaultMapper().readerFor(clazz).readValue(json);
     } catch (IOException ex) {
       log.error(ex.getMessage(), ex);
       throw new RuntimeException(ex);
@@ -46,7 +44,7 @@ public class JsonHelper {
       return (String) entity;
     }
     try {
-      return MapperFactory.getDefault().writeValueAsString(entity);
+      return JsonMapperFactory.getDefaultMapper().writeValueAsString(entity);
     } catch (JsonProcessingException ex) {
       log.error(ex.getMessage(), ex);
       throw new RuntimeException(ex);
@@ -54,7 +52,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWo(Object entity, String... pathsToJsonNode) {
-    DocumentContext context = ApiRequestFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = createJsonParser().parse(toJson(entity));
     for (String path : pathsToJsonNode) {
       context.delete(path);
     }
@@ -62,7 +60,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWo(Object entity, List<String> pathsToJsonNode) {
-    DocumentContext context = ApiRequestFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = createJsonParser().parse(toJson(entity));
     for (String path : pathsToJsonNode) {
       context.delete(path);
     }
@@ -70,7 +68,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWith(Object entity, String pathToNode, Object newNodeValue) {
-    DocumentContext context = ApiRequestFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = createJsonParser().parse(toJson(entity));
     context.set(pathToNode, newNodeValue);
     return context.jsonString();
   }

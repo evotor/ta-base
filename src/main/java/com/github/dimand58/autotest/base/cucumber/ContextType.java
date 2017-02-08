@@ -1,6 +1,6 @@
 package com.github.dimand58.autotest.base.cucumber;
 
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 public class ContextType<T> {

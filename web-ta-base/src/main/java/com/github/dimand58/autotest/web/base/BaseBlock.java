@@ -1,9 +1,8 @@
 package com.github.dimand58.autotest.web.base;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-import lombok.AllArgsConstructor;
-import org.openqa.selenium.By;
+import com.codeborne.selenide.*;
+import lombok.*;
+import org.openqa.selenium.*;
 
 @AllArgsConstructor
 public abstract class BaseBlock extends BasePage {

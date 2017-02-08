@@ -1,19 +1,14 @@
 package com.github.dimand58.autotest.base.testng;
 
-import com.github.dimand58.autotest.base.conf.BaseConfig;
+import com.github.dimand58.autotest.base.conf.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
 
-import com.google.common.base.Splitter;
-import cucumber.api.CucumberOptions;
-import cucumber.api.testng.TestNGCucumberRunner;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
+import com.google.common.base.*;
+import cucumber.api.*;
+import cucumber.api.testng.*;
+import org.testng.annotations.*;
 
 public class BaseCukeTests {
 

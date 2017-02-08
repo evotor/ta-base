@@ -1,21 +1,17 @@
 package com.github.dimand58.autotest.web.webdriver;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.github.dimand58.autotest.base.testng.BaseAllureListener.fireStepFinished;
-import static com.github.dimand58.autotest.base.testng.BaseAllureListener.fireStepStarted;
-import static com.github.dimand58.autotest.base.testng.BaseAllureListener.saveLastEx;
+import static com.codeborne.selenide.WebDriverRunner.*;
+import static com.github.dimand58.autotest.base.testng.BaseAllureListener.*;
 
-import com.github.dimand58.autotest.web.util.SeleniumHelper;
+import com.github.dimand58.autotest.web.util.*;
 
-import java.util.Objects;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
-import lombok.Synchronized;
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.events.WebDriverEventListener;
+import lombok.*;
+import lombok.extern.slf4j.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.events.*;
 
 @Slf4j(topic = "selenide")
 public class SelenideElementListener implements WebDriverEventListener {

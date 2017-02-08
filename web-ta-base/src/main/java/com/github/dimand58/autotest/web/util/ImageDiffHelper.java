@@ -1,20 +1,18 @@
 package com.github.dimand58.autotest.web.util;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.testng.Assert.fail;
+import static com.codeborne.selenide.WebDriverRunner.*;
+import static org.testng.Assert.*;
 
-import com.github.dimand58.autotest.base.util.AttachHelper;
-import com.github.dimand58.autotest.base.util.SoftAssertHelper;
+import com.github.dimand58.autotest.base.util.*;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
 
-import lombok.extern.slf4j.Slf4j;
-import ru.yandex.qatools.ashot.AShot;
-import ru.yandex.qatools.ashot.comparison.ImageDiff;
-import ru.yandex.qatools.ashot.comparison.ImageDiffer;
+import lombok.extern.slf4j.*;
+import ru.yandex.qatools.ashot.*;
+import ru.yandex.qatools.ashot.comparison.*;
 
 @Slf4j
 public class ImageDiffHelper {

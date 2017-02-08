@@ -1,12 +1,11 @@
 package com.github.dimand58.autotest.base.conf;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
-import lombok.Synchronized;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-import ru.qatools.properties.PropertyLoader;
+import lombok.*;
+import org.slf4j.bridge.*;
+import ru.qatools.properties.*;
 
 public class BaseConfig {
 

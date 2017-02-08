@@ -1,13 +1,12 @@
 package com.github.dimand58.autotest.base.util;
 
-import com.github.dimand58.autotest.base.testng.BaseAllureListener;
+import com.github.dimand58.autotest.base.testng.*;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
-import com.google.common.base.Joiner;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import com.google.common.base.*;
+import org.apache.commons.lang3.exception.*;
 
 public class SoftAssertHelper {
 

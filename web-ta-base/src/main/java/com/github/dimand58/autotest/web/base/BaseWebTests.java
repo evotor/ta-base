@@ -1,9 +1,8 @@
 package com.github.dimand58.autotest.web.base;
 
-import com.github.dimand58.autotest.web.webdriver.SelenideElementListener;
+import com.github.dimand58.autotest.web.webdriver.*;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
 
 public class BaseWebTests {
 

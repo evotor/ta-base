@@ -1,9 +1,9 @@
 package com.github.dimand58.autotest.base.util;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import java.math.*;
+import java.text.*;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.*;
 
 public class RandomHelper {
 

@@ -1,11 +1,9 @@
 package com.github.dimand58.autotest.base.cucumber;
 
-import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 public class BaseContextStore {

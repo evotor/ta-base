@@ -1,9 +1,7 @@
 package com.github.dimand58.autotest.web.util;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import lombok.Synchronized;
-import org.openqa.selenium.UnhandledAlertException;
+import com.codeborne.selenide.*;
+import org.openqa.selenium.*;
 
 public class SeleniumHelper {
 

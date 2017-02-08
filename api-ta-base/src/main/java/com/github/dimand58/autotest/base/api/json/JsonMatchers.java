@@ -1,4 +1,4 @@
-package com.github.dimand58.autotest.base.api.matcher;
+package com.github.dimand58.autotest.base.api.json;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
@@ -7,18 +7,12 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 
-import com.github.dimand58.autotest.base.api.util.JsonHelper;
+import java.util.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import lombok.extern.slf4j.Slf4j;
-import org.hamcrest.Matcher;
-import org.json.JSONException;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompare;
-import org.skyscreamer.jsonassert.JSONCompareMode;
+import lombok.extern.slf4j.*;
+import org.hamcrest.*;
+import org.json.*;
+import org.skyscreamer.jsonassert.*;
 
 @Slf4j
 public class JsonMatchers {
@@ -42,14 +36,14 @@ public class JsonMatchers {
     }
   }
 
-  public static void assertEquals(Object entityActual, Object entityExpected) {
+  public static void assertEquals(Object entityActual, Object entityExpected, boolean lenient) {
     try {
       JSONAssert.assertEquals(
           entityExpected instanceof String
               ? (String) entityExpected
               : JsonHelper.toJson(entityExpected),
           entityActual instanceof String ? (String) entityActual : JsonHelper.toJson(entityActual),
-          JSONCompareMode.NON_EXTENSIBLE
+          lenient ? JSONCompareMode.LENIENT : JSONCompareMode.NON_EXTENSIBLE
       );
     } catch (JSONException ex) {
       log.error(ex.getMessage(), ex);
@@ -57,14 +51,14 @@ public class JsonMatchers {
     }
   }
 
-  public static void assertNotEquals(Object entityActual, Object entityExpected) {
+  public static void assertNotEquals(Object entityActual, Object entityExpected, boolean lenient) {
     try {
       JSONAssert.assertNotEquals(
           entityExpected instanceof String
               ? (String) entityExpected
               : JsonHelper.toJson(entityExpected),
           entityActual instanceof String ? (String) entityActual : JsonHelper.toJson(entityActual),
-          JSONCompareMode.NON_EXTENSIBLE
+          lenient ? JSONCompareMode.LENIENT : JSONCompareMode.NON_EXTENSIBLE
       );
     } catch (JSONException ex) {
       log.error(ex.getMessage(), ex);

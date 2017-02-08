@@ -1,8 +1,8 @@
-package com.github.dimand58.autotest.base.api.base;
+package com.github.dimand58.autotest.base.api.model;
 
-import com.github.dimand58.autotest.base.api.util.JsonHelper;
+import com.github.dimand58.autotest.base.api.json.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 
 public abstract class BaseModel {
 

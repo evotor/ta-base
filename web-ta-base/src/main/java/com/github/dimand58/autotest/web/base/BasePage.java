@@ -1,19 +1,12 @@
 package com.github.dimand58.autotest.web.base;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.*;
 
-import java.util.List;
+import java.util.*;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.impl.WebElementsCollection;
-import lombok.AllArgsConstructor;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.codeborne.selenide.*;
+import lombok.*;
+import org.openqa.selenium.*;
 
 @AllArgsConstructor
 public abstract class BasePage {

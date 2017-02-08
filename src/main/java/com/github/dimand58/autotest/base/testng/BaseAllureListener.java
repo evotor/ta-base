@@ -1,14 +1,12 @@
 package com.github.dimand58.autotest.base.testng;
 
-import java.util.Stack;
+import java.util.*;
 
-import lombok.extern.slf4j.Slf4j;
-import ru.yandex.qatools.allure.Allure;
-import ru.yandex.qatools.allure.events.StepEvent;
-import ru.yandex.qatools.allure.events.StepFailureEvent;
-import ru.yandex.qatools.allure.events.StepFinishedEvent;
-import ru.yandex.qatools.allure.events.StepStartedEvent;
-import ru.yandex.qatools.allure.experimental.LifecycleListener;
+import lombok.extern.slf4j.*;
+import ru.yandex.qatools.allure.*;
+import ru.yandex.qatools.allure.annotations.*;
+import ru.yandex.qatools.allure.events.*;
+import ru.yandex.qatools.allure.experimental.*;
 
 @Slf4j(topic = "allure")
 public class BaseAllureListener extends LifecycleListener {
@@ -16,10 +14,9 @@ public class BaseAllureListener extends LifecycleListener {
   public static final ThreadLocal<Throwable> EXCEPTION_LAST = ThreadLocal.withInitial(() -> null);
   protected static final ThreadLocal<Stack<String>> STEPS_STACK = ThreadLocal.withInitial(Stack::new);
 
+  @Step("{0}")
   public static void execAndFireStep(String stepTitle, Runnable someStepActions) {
-    fireStepStarted(stepTitle);
     someStepActions.run();
-    fireStepFinished();
   }
 
   public static void fireStepStarted(String stepTitle) {

@@ -1,9 +1,7 @@
 package com.github.dimand58.autotest.base.testng;
 
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-import ru.yandex.qatools.allure.Allure;
+import org.testng.*;
+import ru.yandex.qatools.allure.*;
 
 public class BaseTestngListener implements ITestListener {
 

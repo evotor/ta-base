@@ -1,17 +1,14 @@
 package com.github.dimand58.autotest.web.testng;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.hasWebDriverStarted;
+import static com.codeborne.selenide.WebDriverRunner.*;
 
-import com.github.dimand58.autotest.base.util.AttachHelper;
+import com.github.dimand58.autotest.base.util.*;
 
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriverException;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-import ru.yandex.qatools.allure.Allure;
-import ru.yandex.qatools.ashot.AShot;
+import lombok.extern.slf4j.*;
+import org.openqa.selenium.*;
+import org.testng.*;
+import ru.yandex.qatools.allure.*;
+import ru.yandex.qatools.ashot.*;
 
 @Slf4j(topic = "testng")
 public class WebTestngListener implements ITestListener {
@@ -37,15 +34,18 @@ public class WebTestngListener implements ITestListener {
       } catch (WebDriverException ex) {
         log.error(ex.getMessage(), ex);
       }
+      getWebDriver().close();
     }
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
+    getWebDriver().close();
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    getWebDriver().close();
   }
 
   @Override
