@@ -21,7 +21,7 @@
         <value>
             <package name="" withSubpackages="true" static="true"/>
             <emptyLine/>
-            <package name="com.github.dimand58" withSubpackages="true" static="false"/>
+            <package name="com.github.ddemin" withSubpackages="true" static="false"/>
             <emptyLine/>
             <package name="java" withSubpackages="true" static="false"/>
             <package name="javax" withSubpackages="true" static="false"/>

@@ -170,7 +170,7 @@
         <module name="CustomImportOrder">
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="separateLineBetweenGroups" value="true"/>
-            <property name="specialImportsRegExp" value="com\.github\.dimand58.*"/>
+            <property name="specialImportsRegExp" value="com\.github\.ddemin.*"/>
             <property name="customImportOrderRules"
                       value="STATIC###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE"/>
         </module>
