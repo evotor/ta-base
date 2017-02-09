@@ -2,12 +2,11 @@ package com.github.dimand58.autotest.base.api.restassured;
 
 import static java.lang.String.*;
 
-import com.github.dimand58.autotest.base.api.json.*;
+import com.github.dimand58.autotest.base.api.util.*;
 import com.github.dimand58.autotest.base.util.*;
 
 import java.util.*;
 
-import com.cedarsoftware.util.io.*;
 import io.restassured.filter.*;
 import io.restassured.response.*;
 import io.restassured.specification.*;
@@ -32,25 +31,8 @@ public class ApiSlf4jAndAllureFilter implements OrderedFilter {
   }
 
   private void logRequest(FilterableRequestSpecification requestSpec) {
-    String fullUri = requestSpec.getMethod() + " " + requestSpec.getURI();
-    String headers = Objects.toString(requestSpec.getHeaders(), "");
-    String payload = Objects.toString(requestSpec.getBody(), "");
-
-    if (requestSpec.getContentType().contains("application/json")) {
-      try {
-        payload = JsonWriter.formatJson(JsonHelper.toJson(payload));
-      } catch (Exception ex) {
-        log.debug(ex.getMessage());
-      }
-    }
-
-    String request =
-        fullUri + System.lineSeparator()
-            + headers + System.lineSeparator()
-            + payload;
-
-    AttachHelper.attachText("Request", request);
-    log.info("REQUEST - " + fullUri);
+    AttachHelper.attachText("Request", CurlBuilder.buildFromRequestSpec(requestSpec));
+    log.info("REQUEST - {} {}", requestSpec.getMethod(), requestSpec.getURI());
   }
 
   private void logResponse(Response response) {
@@ -59,6 +41,6 @@ public class ApiSlf4jAndAllureFilter implements OrderedFilter {
         Objects.toString(response.getHeaders(), "")
     );
     AttachHelper.attachJson("Response payload", response.asString());
-    log.info("RESPONSE - HTTP " + response.statusCode());
+    log.info("RESPONSE - HTTP {}", response.statusCode());
   }
 }

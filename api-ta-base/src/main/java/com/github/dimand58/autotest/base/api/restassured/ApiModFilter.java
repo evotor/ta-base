@@ -6,11 +6,14 @@ import com.github.dimand58.autotest.base.api.model.*;
 import java.util.*;
 import java.util.stream.*;
 
+import com.cedarsoftware.util.io.*;
 import io.restassured.filter.*;
 import io.restassured.response.*;
 import io.restassured.specification.*;
 import javafx.util.*;
+import lombok.extern.slf4j.*;
 
+@Slf4j
 public class ApiModFilter implements OrderedFilter {
 
   public static final ThreadLocal<List<Pair<RequestModType, List<Object>>>> REQUEST_MODS =
@@ -124,6 +127,14 @@ public class ApiModFilter implements OrderedFilter {
             requestSpec.body(mod.getValue().get(0).toString());
           }
         });
+
+    if (requestSpec.getContentType().contains("application/json")) {
+      try {
+        requestSpec.body(JsonWriter.formatJson(requestSpec.getBody()));
+      } catch (Exception ex) {
+        log.debug(ex.getMessage());
+      }
+    }
 
     if (requestSpec.getContentType().contains("application/json") && requestSpec.getBody() instanceof BaseModel) {
       ((BaseModel) requestSpec.getBody()).setJson(requestSpec.getBody());
