@@ -39,11 +39,20 @@ public class ApiRequestFactory {
             );
   }
 
-  public static RequestSpecification createRequest() {
+  public static RequestSpecification createJsonRequest() {
     return given()
         .config(RESTASSURED_CONFIG)
         .contentType(ContentType.JSON)
         .accept(ContentType.JSON)
+        .header(CACHE_CONTROL, "no-cache")
+        .baseUri("")
+        .filters(new ApiModFilter(), new ApiSaveFilter(), new ApiSlf4jAndAllureFilter());
+  }
+
+  public static RequestSpecification createFormRequest() {
+    return given()
+        .config(RESTASSURED_CONFIG)
+        .contentType(ContentType.URLENC)
         .header(CACHE_CONTROL, "no-cache")
         .baseUri("")
         .filters(new ApiModFilter(), new ApiSaveFilter(), new ApiSlf4jAndAllureFilter());
