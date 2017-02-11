@@ -21,11 +21,8 @@ public interface IWebBrowserArea {
           .withMessage("Key page elements should be loaded")
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
           .until((WebDriver wd) ->
-              !getKeyElements().stream()
-                  .filter(it -> !it.isDisplayed())
-                  .findFirst()
-                  .isPresent()
-          );
+              getKeyElements().stream().allMatch(WebElement::isDisplayed)
+        );
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
@@ -37,14 +34,13 @@ public interface IWebBrowserArea {
 
   default void waitUntilDisappeared(long msTimeout) {
     try {
-      Selenide.Wait()
+      Selenide
+          .Wait()
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
-          .until((WebDriver wd) ->
-              !getKeyElements().stream()
-                  .filter(it -> it.isDisplayed())
-                  .findFirst()
-                  .isPresent()
-          );
+          .until(
+              (WebDriver wd) ->
+                  getKeyElements().stream().noneMatch(WebElement::isDisplayed)
+        );
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
