@@ -54,7 +54,7 @@ public class BaseAllureListener extends LifecycleListener {
   @Override
   public void fire(StepStartedEvent event) {
     log.info("STARTED  - {}", event.getTitle() == null ? event.getName() : event.getTitle());
-    STEPS_STACK.get().push(event.getName());
+    STEPS_STACK.get().push(event.getTitle() == null ? event.getName() : event.getTitle());
   }
 
   @Override
