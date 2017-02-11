@@ -1,4 +1,4 @@
-package com.github.ddemin.autotest.web.base;
+package com.github.ddemin.autotest.web.testng;
 
 import com.github.ddemin.autotest.web.webdriver.*;
 

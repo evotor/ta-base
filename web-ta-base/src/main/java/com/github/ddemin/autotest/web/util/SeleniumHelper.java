@@ -3,25 +3,33 @@ package com.github.ddemin.autotest.web.util;
 import com.codeborne.selenide.*;
 import org.openqa.selenium.*;
 
+// TODO OMG! Works, but looks not pretty yet!
 public class SeleniumHelper {
 
+  // TODO move to config
+  private static final int REPEATS = 2;
   private static final String JS_AJAX_WAITING
       = "return (typeof jQuery == 'undefined' || jQuery.active == 0) && document.readyState == 'complete';";
   private static final ThreadLocal<Long> LAST_CHECK_TIMESTAMP
-      = ThreadLocal.withInitial(() -> System.currentTimeMillis());
-
+      = ThreadLocal.withInitial(System::currentTimeMillis);
+  private static final ThreadLocal<By> LOCATOR_LAST = ThreadLocal.withInitial(() -> null);
 
   public static void waitWhileAjax() {
-    long curTime = System.currentTimeMillis();
-    if (curTime - LAST_CHECK_TIMESTAMP.get() < 100) {
+    waitWhileAjax(null);
+  }
+
+  public static void waitWhileAjax(By element) {
+    if (element != null && LOCATOR_LAST.get() != null && LOCATOR_LAST.get().equals(element)
+        || System.currentTimeMillis() - LAST_CHECK_TIMESTAMP.get() < Configuration.timeout) {
       return;
     }
-
-    int success = 0;
-    int repeats = 3;
-    long tmt = Configuration.timeout;
+    LOCATOR_LAST.set(element);
 
     Selenide.sleep(Configuration.pollingInterval);
+
+    int success = 0;
+    long tmt = Configuration.timeout;
+    long curTime = System.currentTimeMillis();
     do {
       Selenide.sleep(Configuration.pollingInterval);
       try {
@@ -43,6 +51,6 @@ public class SeleniumHelper {
       tmt -= System.currentTimeMillis() - curTime;
       curTime = System.currentTimeMillis();
     }
-    while (success < repeats && tmt > 0L);
+    while (success < REPEATS && tmt > 0L);
   }
 }

@@ -2,6 +2,8 @@ package com.github.ddemin.autotest.web.testng;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 
+import com.github.ddemin.autotest.base.util.*;
+
 import lombok.extern.slf4j.*;
 import org.openqa.selenium.*;
 import org.testng.*;
@@ -32,18 +34,18 @@ public class WebTestngListener implements ITestListener {
       } catch (WebDriverException ex) {
         log.error(ex.getMessage(), ex);
       }
-      getWebDriver().close();
     }
+    stopDriverIfItAlive();
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
-    getWebDriver().close();
+    stopDriverIfItAlive();
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    getWebDriver().close();
+    stopDriverIfItAlive();
   }
 
   @Override
@@ -56,5 +58,11 @@ public class WebTestngListener implements ITestListener {
 
   @Override
   public void onFinish(ITestContext context) {
+  }
+
+  private void stopDriverIfItAlive() {
+    if (hasWebDriverStarted()) {
+      getWebDriver().quit();
+    }
   }
 }

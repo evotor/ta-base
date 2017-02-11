@@ -3,6 +3,8 @@ package com.github.ddemin.autotest.web.util;
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static org.testng.Assert.*;
 
+import com.github.ddemin.autotest.base.util.*;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;

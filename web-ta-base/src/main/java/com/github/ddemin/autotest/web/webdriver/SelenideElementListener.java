@@ -13,16 +13,16 @@ import lombok.extern.slf4j.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.*;
 
+// TODO Improve extraction of By description from WebElement
 @Slf4j(topic = "selenide")
 public class SelenideElementListener implements WebDriverEventListener {
 
-  private static final ThreadLocal<String> LOCATOR_LAST = ThreadLocal.withInitial(() -> "");
   private static final Pattern REGEX_DRIVER = Pattern.compile("^\\[.*Driver: (.*)\\)] -> ");
 
   @Override
   @Synchronized
   public void beforeNavigateTo(String url, WebDriver driver) {
-    fireStepStarted("Navigate to " + url);
+    fireStepStarted("Navigate TO " + url);
     getWebDriver().manage().window().maximize();
     SeleniumHelper.waitWhileAjax();
   }
@@ -37,63 +37,55 @@ public class SelenideElementListener implements WebDriverEventListener {
   @Override
   public void beforeNavigateBack(WebDriver driver) {
     fireStepStarted("Navigate back");
+    SeleniumHelper.waitWhileAjax();
   }
 
   @Override
   public void afterNavigateBack(WebDriver driver) {
-    SeleniumHelper.waitWhileAjax();
     fireStepFinished();
   }
 
   @Override
   public void beforeNavigateForward(WebDriver driver) {
     fireStepStarted("Navigate forward");
+    SeleniumHelper.waitWhileAjax();
   }
 
   @Override
   public void afterNavigateForward(WebDriver driver) {
-    SeleniumHelper.waitWhileAjax();
     fireStepFinished();
   }
 
   @Override
   public void beforeNavigateRefresh(WebDriver driver) {
-    fireStepStarted("Refresh page " + driver.getCurrentUrl());
+    fireStepStarted("Refresh page");
+    SeleniumHelper.waitWhileAjax();
   }
 
   @Override
   public void afterNavigateRefresh(WebDriver driver) {
-    SeleniumHelper.waitWhileAjax();
     fireStepFinished();
   }
 
   @Override
   public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-    String parentLocator = "null";
-    if (element != null) {
-      parentLocator = element.toString().replaceFirst(REGEX_DRIVER.pattern(), "");
-    }
-
-    fireStepStarted(String.format("Search %s -> %s", parentLocator, by));
-
-    if (LOCATOR_LAST.get().equalsIgnoreCase(by.toString())) {
-      return;
-    } else if (!LOCATOR_LAST.get().isEmpty()
-        && parentLocator.contains(LOCATOR_LAST.get().substring(LOCATOR_LAST.get().indexOf(": ")))) {
-      return;
-    }
-    LOCATOR_LAST.set(by.toString());
-    SeleniumHelper.waitWhileAjax();
+    SeleniumHelper.waitWhileAjax(by);
+    log.info(
+        "Find {}{}",
+        element == null
+            ? ""
+            : String.format("PARENT: %s -> CHILD: ", element.toString().replaceFirst(REGEX_DRIVER.pattern(), "")),
+        by.toString().replaceFirst(REGEX_DRIVER.pattern(), "")
+    );
   }
 
   @Override
   public void afterFindBy(By by, WebElement element, WebDriver driver) {
-    fireStepFinished();
   }
 
   @Override
   public void beforeClickOn(WebElement element, WebDriver driver) {
-    fireStepStarted(String.format("Click on %s", element.toString().replaceFirst(REGEX_DRIVER.pattern(), "")));
+    fireStepStarted(String.format("Click ON: %s", element.toString().replaceFirst(REGEX_DRIVER.pattern(), "")));
   }
 
   @Override
@@ -103,9 +95,9 @@ public class SelenideElementListener implements WebDriverEventListener {
 
   @Override
   public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
-    fireStepStarted(String.format("Change %s to %s",
+    fireStepStarted(String.format("Change ELEMENT: %s TO: \"%s\"",
         element.toString().replaceFirst(REGEX_DRIVER.pattern(), ""),
-        Objects.toString(keysToSend, "")));
+        Objects.toString(Arrays.toString(keysToSend), "")));
   }
 
   @Override
@@ -115,19 +107,10 @@ public class SelenideElementListener implements WebDriverEventListener {
 
   @Override
   public void beforeScript(String script, WebDriver driver) {
-    if (script.contains("readyState") || script.contains("jsErrors")) {
-      return;
-    }
-    fireStepStarted(String.format("Execute script: %s ",
-        script.substring(0, script.length() > 32 ? 32 : script.length() - 1).replace('\r', ' ').replace('\n', ' ')));
   }
 
   @Override
   public void afterScript(String script, WebDriver driver) {
-    if (script.contains("readyState") || script.contains("jsErrors")) {
-      return;
-    }
-    fireStepFinished();
   }
 
   @Override

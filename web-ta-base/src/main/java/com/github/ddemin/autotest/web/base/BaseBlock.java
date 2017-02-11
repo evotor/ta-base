@@ -5,7 +5,7 @@ import lombok.*;
 import org.openqa.selenium.*;
 
 @AllArgsConstructor
-public abstract class BaseBlock extends BasePage {
+public abstract class BaseBlock implements IWebBrowserArea {
 
   private SelenideElement root;
 
@@ -13,32 +13,28 @@ public abstract class BaseBlock extends BasePage {
     return root;
   }
 
-  public SelenideElement iam() {
-    return getRoot();
-  }
-
   public SelenideElement getChild(String cssLocator) {
-    return iam().$(cssLocator);
+    return getRoot().$(cssLocator);
   }
 
   public SelenideElement getChild(By byLocator) {
-    return iam().$(byLocator);
+    return getRoot().$(byLocator);
   }
 
   public ElementsCollection getChilds(String cssLocator) {
-    return iam().$$(cssLocator);
+    return getRoot().$$(cssLocator);
   }
 
   public ElementsCollection getChilds(By byLocator) {
-    return iam().$$(byLocator);
+    return getRoot().$$(byLocator);
   }
 
   public BaseBlock hover() {
-    iam().hover();
+    getRoot().hover();
     return this;
   }
 
   public void click() {
-    iam().click();
+    getRoot().click();
   }
 }

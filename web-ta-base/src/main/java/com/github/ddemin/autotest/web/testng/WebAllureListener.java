@@ -3,6 +3,9 @@ package com.github.ddemin.autotest.web.testng;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 
+import com.github.ddemin.autotest.base.testng.*;
+import com.github.ddemin.autotest.base.util.*;
+
 import lombok.extern.slf4j.*;
 import org.openqa.selenium.*;
 import ru.yandex.qatools.allure.events.*;
