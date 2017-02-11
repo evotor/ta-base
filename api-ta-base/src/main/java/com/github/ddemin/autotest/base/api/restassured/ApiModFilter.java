@@ -130,7 +130,7 @@ public class ApiModFilter implements OrderedFilter {
 
     if (requestSpec.getContentType().contains("application/json")) {
       try {
-        requestSpec.body(JsonWriter.formatJson(requestSpec.getBody()));
+        requestSpec.body(JsonWriter.formatJson(JsonHelper.toJson(requestSpec.getBody())));
       } catch (Exception ex) {
         log.debug(ex.getMessage());
       }
