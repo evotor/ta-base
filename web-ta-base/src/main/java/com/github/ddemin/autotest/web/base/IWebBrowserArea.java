@@ -11,6 +11,14 @@ public interface IWebBrowserArea {
 
   List<WebElement> getKeyElements();
 
+  default boolean isDisplayed() {
+    return getKeyElements().stream().allMatch(WebElement::isDisplayed);
+  }
+
+  default boolean isNonDisplayed() {
+    return getKeyElements().stream().noneMatch(WebElement::isDisplayed);
+  }
+
   default void waitUntilLoaded() {
     waitUntilLoaded(Configuration.timeout);
   }
@@ -18,11 +26,9 @@ public interface IWebBrowserArea {
   default void waitUntilLoaded(long msTimeout) {
     try {
       Selenide.Wait()
-          .withMessage("Key page elements should be loaded")
+          .withMessage("All key elements should be loaded")
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
-          .until((WebDriver wd) ->
-              getKeyElements().stream().allMatch(WebElement::isDisplayed)
-        );
+          .until((WebDriver wd) -> this.isDisplayed());
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
@@ -34,13 +40,10 @@ public interface IWebBrowserArea {
 
   default void waitUntilDisappeared(long msTimeout) {
     try {
-      Selenide
-          .Wait()
+      Selenide.Wait()
+          .withMessage("All key elements should be disappeared")
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
-          .until(
-              (WebDriver wd) ->
-                  getKeyElements().stream().noneMatch(WebElement::isDisplayed)
-        );
+          .until((WebDriver wd) -> this.isNonDisplayed());
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
