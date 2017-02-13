@@ -30,7 +30,7 @@ public class ImageDiffHelper {
             if (diffImg.hasDiff()) {
               AttachHelper.attachImg("Standard image", standartImg);
               AttachHelper.attachImg("Actual image", actualImg);
-              AttachHelper.attachImg("Diff image", diffImg.getMarkedImage());
+              AttachHelper.attachImg("Diff image", diffImg.getTransparentMarkedImage());
               String errMsg = "Screenshot should be equal to standard: " + pathToStandart;
               fail(errMsg);
             }
