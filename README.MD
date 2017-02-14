@@ -10,16 +10,16 @@ Parts
 Powered by
 ------------- 
 
- 1. Gradle
- 2. TestNG
- 3. Cucumber JVM
- 4. Selenium WebDriver / WebDriver manager
- 5. Selenide
- 6. Yandex Allure / Properties / AShot
- 7. Rest-Assured
- 8. Jackson
- 9. Hamcrest
- 10. Lombok
+ 1. [Gradle](https://gradle.org/docs#getting-started)
+ 2. [TestNG](http://testng.org/doc/documentation-main.html)
+ 3. [Cucumber JVM](https://cucumber.io/docs) and [Kirlionik cucumber plugin for Allure](https://github.com/kirlionik/allure-cucumber-plugin)
+ 4. [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/)
+ 5. [Selenide](http://selenide.org/)
+ 6. [Yandex Allure / Properties / AShot](http://qatools.ru/)
+ 7. [Rest-Assured](https://github.com/rest-assured/rest-assured/wiki/GettingStarted)
+ 8. [Hamcrest Matchers](http://hamcrest.org/JavaHamcrest/)
+ 9. [Lombok](https://projectlombok.org/)
+ 10. [Awaitility](https://github.com/awaitility/awaitility/wiki/Getting_started)
  
  and others
 
@@ -32,7 +32,7 @@ Requirements
  4. Code style settings that matches config/checksyle/checkstyle.xml
     For Intellij IDEA you can use config/codestyle/Code style for IDEA.xml
 
-Publishing 
+Publishing (temporary workaround)
 -------------
 
 For publishing into local Maven repository you can use command:
@@ -50,12 +50,13 @@ Code static analysis
 -------------
 
 Used style guides:
- 1. Google Java Style Guide with some changes
+ 1. [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html) with some changes
 
 CSA frameworks:
- 1. Findbugs
- 2. PMD
- 3. Checkstyle
+ 1. [Findbugs](http://findbugs.sourceforge.net/)
+ 2. [PMD](https://pmd.github.io/)
+ 3. [Checkstyle](http://checkstyle.sourceforge.net/)
+ 4. [Error Prone](http://errorprone.info/)
 
 TODO
 -------------
@@ -63,5 +64,5 @@ TODO
  - build and deploy to Maven Central via Travis CI
  - java docs
  - unit tests
- - module for interactions with e-mail servers
+ - module for interactions with e-mail servers (not sure)
  - module for interactions with databases (not sure)
