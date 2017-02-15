@@ -23,7 +23,6 @@ public class SelenideElementListener implements WebDriverEventListener {
   @Synchronized
   public void beforeNavigateTo(String url, WebDriver driver) {
     fireStepStarted("Navigate TO " + url);
-    getWebDriver().manage().window().maximize();
     SeleniumHelper.waitWhileAjax();
   }
 
