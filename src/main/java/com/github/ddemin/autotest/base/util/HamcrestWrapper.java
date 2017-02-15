@@ -25,7 +25,7 @@ public class HamcrestWrapper {
 
   public static void repeatAssertion(String reason, Runnable someCodeWithAsserts, long timeout, long poll) {
     BaseAllureListener.execAndFireStep(
-        String.format("ASSERTION REPEATABLE: %s", reason),
+        String.format("REPEATABLE (%d ms): %s", timeout, reason),
         () -> {
           try {
             await(reason)
@@ -51,13 +51,13 @@ public class HamcrestWrapper {
       log.debug(ex.getMessage());
     }
     BaseAllureListener.execAndFireStep(
-        String.format("ASSERTION DELAYED (%d ms): %s ", delay, reason),
+        String.format("DELAYED (%d ms): %s ", delay, reason),
         someCodeWithAsserts
     );
   }
 
   public static <T> void wrapAssertion(String reason, T actual, Matcher<? super T> matcher) {
-    BaseAllureListener.execAndFireStep(String.format("ASSERTION: %s (%s)",
+    BaseAllureListener.execAndFireStep(String.format("%s (expected %s)",
         reason,
         new StringDescription().appendDescriptionOf(matcher)),
         () -> MatcherAssert.assertThat(reason, actual, matcher)
@@ -66,7 +66,7 @@ public class HamcrestWrapper {
 
   public static void wrapAssertion(String reason, boolean assertion) {
     BaseAllureListener.execAndFireStep(
-        "ASSERTION: " + reason,
+        String.format("%s (expected %s)", reason, assertion),
         () -> MatcherAssert.assertThat(reason, assertion)
     );
   }
