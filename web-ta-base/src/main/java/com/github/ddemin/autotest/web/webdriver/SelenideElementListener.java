@@ -1,6 +1,5 @@
 package com.github.ddemin.autotest.web.webdriver;
 
-import static com.codeborne.selenide.WebDriverRunner.*;
 import static com.github.ddemin.autotest.base.testng.BaseAllureListener.*;
 
 import com.github.ddemin.autotest.web.util.*;

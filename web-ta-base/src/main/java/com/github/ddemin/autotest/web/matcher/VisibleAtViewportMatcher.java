@@ -1,9 +1,7 @@
 package com.github.ddemin.autotest.web.matcher;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static java.lang.Math.toIntExact;
-import static org.hamcrest.core.Is.is;
+import static com.codeborne.selenide.Selenide.*;
+import static java.lang.Math.*;
 
 import org.hamcrest.*;
 import org.openqa.selenium.*;
@@ -21,7 +19,9 @@ public class VisibleAtViewportMatcher extends TypeSafeMatcher<WebElement> {
   }
 
   public static boolean isVisibleAtViewport(final WebElement element) {
-    if (!element.isDisplayed()) return false;
+    if (!element.isDisplayed()) {
+      return false;
+    }
 
     java.awt.Rectangle browserRect = new java.awt.Rectangle(
         toIntExact(executeJavaScript("return window.pageXOffset;")),
