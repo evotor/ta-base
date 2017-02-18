@@ -35,17 +35,14 @@ public class WebTestngListener implements ITestListener {
         log.error(ex.getMessage(), ex);
       }
     }
-    stopDriverIfItAlive();
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
-    stopDriverIfItAlive();
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    stopDriverIfItAlive();
   }
 
   @Override
@@ -58,11 +55,5 @@ public class WebTestngListener implements ITestListener {
 
   @Override
   public void onFinish(ITestContext context) {
-  }
-
-  private void stopDriverIfItAlive() {
-    if (hasWebDriverStarted()) {
-      getWebDriver().quit();
-    }
   }
 }
