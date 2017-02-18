@@ -137,7 +137,7 @@ public class ApiModFilter implements OrderedFilter {
     }
 
     if (requestSpec.getContentType().contains("application/json") && requestSpec.getBody() instanceof BaseModel) {
-      ((BaseModel) requestSpec.getBody()).setJson(requestSpec.getBody());
+      ((BaseModel) requestSpec.getBody()).saveJson(requestSpec.getBody());
     }
   }
 }

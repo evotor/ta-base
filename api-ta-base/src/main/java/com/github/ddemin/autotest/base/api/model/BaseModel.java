@@ -22,7 +22,7 @@ public abstract class BaseModel {
   }
 
   @JsonIgnore
-  public void setJson(String json) {
+  public void saveJson(String json) {
     this.jsonRepresentation = json;
   }
 
