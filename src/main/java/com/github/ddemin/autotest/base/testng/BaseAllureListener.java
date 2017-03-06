@@ -34,6 +34,14 @@ public class BaseAllureListener extends LifecycleListener {
     EXCEPTION_LAST.set(null);
   }
 
+  public static void fireStepFailed() {
+    Allure.LIFECYCLE.fire(new StepFailureEvent());
+  }
+
+  public static void fireStepFailed(Throwable tr) {
+    Allure.LIFECYCLE.fire(new StepFailureEvent().withThrowable(tr));
+  }
+
   public static void finishAllStepsAsFailed(Throwable th) {
     while (!STEPS_STACK.get().isEmpty()) {
       Allure.LIFECYCLE.fire(new StepFailureEvent().withThrowable(th));
