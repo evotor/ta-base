@@ -22,7 +22,6 @@ public class SelenideElementListener implements WebDriverEventListener {
   @Synchronized
   public void beforeNavigateTo(String url, WebDriver driver) {
     fireStepStarted("Navigate TO " + url);
-    SeleniumHelper.waitWhileAjax();
   }
 
   @Override

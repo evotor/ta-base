@@ -15,15 +15,17 @@ public class WebAllureListener extends BaseAllureListener {
 
   @Override
   public void fire(StepEvent event) {
-    if (event instanceof StepFailureEvent
-        && EXCEPTION_LAST.get() != null
-        && !STEPS_STACK.get().isEmpty()
-        && hasWebDriverStarted()) {
-      try {
-        AttachHelper.attachPng(EXCEPTION_LAST.get().getMessage(),
-            ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES));
-      } catch (WebDriverException ex) {
-        log.error(ex.getMessage(), ex);
+    if (event instanceof StepFailureEvent) {
+      super.fire(event);
+      if (hasWebDriverStarted()) {
+        try {
+          AttachHelper.attachPng(
+              ((StepFailureEvent) event).getThrowable().getMessage(),
+              ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES)
+          );
+        } catch (WebDriverException ex) {
+          log.error(ex.getMessage(), ex);
+        }
       }
     }
   }

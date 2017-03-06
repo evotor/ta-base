@@ -1,14 +1,8 @@
 package com.github.ddemin.autotest.web.testng;
 
-import static com.codeborne.selenide.WebDriverRunner.*;
-
-import com.github.ddemin.autotest.base.util.*;
-
 import lombok.extern.slf4j.*;
-import org.openqa.selenium.*;
 import org.testng.*;
 import ru.yandex.qatools.allure.*;
-import ru.yandex.qatools.ashot.*;
 
 @Slf4j(topic = "testng")
 public class WebTestngListener implements ITestListener {
@@ -25,16 +19,7 @@ public class WebTestngListener implements ITestListener {
 
   @Override
   public void onTestFailure(ITestResult result) {
-    if (hasWebDriverStarted()) {
-      try {
-        AttachHelper.attachImg(
-            result.getThrowable().getMessage(),
-            new AShot().takeScreenshot(getWebDriver()).getImage()
-        );
-      } catch (WebDriverException ex) {
-        log.error(ex.getMessage(), ex);
-      }
-    }
+
   }
 
   @Override
