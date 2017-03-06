@@ -11,6 +11,9 @@ public interface IWebBrowserArea {
 
   List<WebElement> getKeyElements();
 
+  default void executeCheckDuringWaiting() {
+  }
+
   default boolean isDisplayed() {
     return getKeyElements().stream().allMatch(WebElement::isDisplayed);
   }
@@ -25,10 +28,16 @@ public interface IWebBrowserArea {
 
   default void waitUntilLoaded(long msTimeout) {
     try {
-      Selenide.Wait()
+      Selenide
+          .Wait()
           .withMessage("All key elements should be loaded")
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
-          .until((WebDriver wd) -> this.isDisplayed());
+          .until(
+              (WebDriver wd) -> {
+                executeCheckDuringWaiting();
+                return this.isDisplayed();
+              }
+        );
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
