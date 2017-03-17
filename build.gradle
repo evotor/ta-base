@@ -8,8 +8,12 @@ dependencies {
     compile group: 'com.google.errorprone', name: 'error_prone_core', version: errorProneVersion
     compile group: 'com.google.code.findbugs', name: 'annotations', version: findbugsVersion
 
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: slf4jVersion
     compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4jVersion
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    compile group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
 
     compile group: 'org.testng', name: 'testng', version: testngVersion
     compile group: 'info.cukes', name: 'cucumber-java8', version: cucumberVersion
