@@ -13,6 +13,7 @@ public class BaseAllureListener extends LifecycleListener {
 
   public static final ThreadLocal<Throwable> EXCEPTION_LAST = ThreadLocal.withInitial(() -> null);
   protected static final ThreadLocal<Stack<String>> STEPS_STACK = ThreadLocal.withInitial(Stack::new);
+  protected static final ThreadLocal<Stack<String>> TESTS_STACK = ThreadLocal.withInitial(Stack::new);
 
   @Step("{0}")
   public static void execAndFireStep(String stepTitle, Runnable someStepActions) {
@@ -57,6 +58,22 @@ public class BaseAllureListener extends LifecycleListener {
 
   public static void saveLastEx(Throwable tr) {
     EXCEPTION_LAST.set(tr);
+  }
+
+  public static boolean isTestContextAtNow() {
+    return !TESTS_STACK.get().empty();
+  }
+
+  @Override
+  public void fire(TestCaseStartedEvent event) {
+    TESTS_STACK.get().push(event.getName());
+  }
+
+  @Override
+  public void fire(TestCaseFinishedEvent event) {
+    if (!TESTS_STACK.get().empty()) {
+      TESTS_STACK.get().pop();
+    }
   }
 
   @Override
