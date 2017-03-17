@@ -31,7 +31,6 @@ public class BaseConfig {
   public static Properties getAllProperties() throws IOException {
     if (allProperties == null) {
       allProperties = new Properties();
-      allProperties.putAll(System.getProperties());
 
       try (Stream<Path> paths = Files.walk(Paths.get(PATH_TO_PROPERTIES_FOLDER))) {
         paths.forEach(filePath -> {
@@ -53,6 +52,8 @@ public class BaseConfig {
             }
           }
         });
+      } finally {
+        allProperties.putAll(System.getProperties());
       }
 
       System.setProperties(allProperties);
