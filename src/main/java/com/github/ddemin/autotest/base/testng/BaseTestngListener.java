@@ -1,11 +1,14 @@
 package com.github.ddemin.autotest.base.testng;
 
+import org.slf4j.bridge.*;
 import org.testng.*;
 import ru.yandex.qatools.allure.*;
 
 public class BaseTestngListener implements ITestListener {
 
   static {
+    SLF4JBridgeHandler.removeHandlersForRootLogger();
+    SLF4JBridgeHandler.install();
     Allure.LIFECYCLE.addListener(new BaseAllureListener());
   }
 
@@ -41,4 +44,5 @@ public class BaseTestngListener implements ITestListener {
   @Override
   public void onFinish(ITestContext context) {
   }
+
 }
