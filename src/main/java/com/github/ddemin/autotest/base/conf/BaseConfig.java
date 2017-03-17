@@ -54,9 +54,9 @@ public class BaseConfig {
         });
       } finally {
         allProperties.putAll(System.getProperties());
+        System.setProperties(allProperties);
       }
 
-      System.setProperties(allProperties);
     }
 
     return allProperties;
