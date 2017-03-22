@@ -1,5 +1,7 @@
 package com.github.ddemin.autotest.base.testng;
 
+import com.github.ddemin.autotest.base.util.*;
+
 import org.slf4j.bridge.*;
 import org.testng.*;
 import ru.yandex.qatools.allure.*;
@@ -15,16 +17,19 @@ public class BaseTestngListener implements ITestListener {
   @Override
   public void onTestSuccess(ITestResult result) {
     BaseAllureListener.finishAllStepsAsPassed();
+    DataSemaphore.releaseData();
   }
 
   @Override
   public void onTestFailure(ITestResult result) {
     BaseAllureListener.finishAllStepsAsFailed(result.getThrowable());
+    DataSemaphore.releaseData();
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     BaseAllureListener.finishAllStepsAsFailed(result.getThrowable());
+    DataSemaphore.releaseData();
   }
 
   @Override
@@ -34,6 +39,7 @@ public class BaseTestngListener implements ITestListener {
 
   @Override
   public void onTestSkipped(ITestResult result) {
+    DataSemaphore.releaseData();
   }
 
   @Override

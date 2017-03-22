@@ -18,4 +18,8 @@ public interface IConfigTesting {
   @Property("testing.assert.poll")
   @DefaultValue("500")
   long getAssertPoll();
+
+  @Property("testing.testdata.timeout")
+  @DefaultValue("60000")
+  long getTestDataTimeout();
 }

@@ -19,8 +19,12 @@ public class ApiModFilter implements OrderedFilter {
   public static final ThreadLocal<List<Pair<RequestModType, List<Object>>>> REQUEST_MODS =
       ThreadLocal.withInitial(ArrayList::new);
 
+  public static void registerMod(RequestModType modType, List<Object> modParams) {
+    REQUEST_MODS.get().add(new Pair<>(modType, modParams));
+  }
+
   public static void registerMod(RequestModType modType, Object... modParams) {
-    REQUEST_MODS.get().add(new Pair<>(modType, Arrays.asList(modParams)));
+    registerMod(modType, Arrays.asList(modParams));
   }
 
   public static List<List<Object>> getMods(RequestModType modType) {
@@ -59,7 +63,7 @@ public class ApiModFilter implements OrderedFilter {
 
   private void modifyUrlPath(FilterableRequestSpecification spec) {
     StringBuilder builder = new StringBuilder();
-    builder.append(spec.getBasePath());
+    builder.append(spec.getBaseUri());
 
     for (Pair<RequestModType, List<Object>> mod : REQUEST_MODS.get()) {
       if (mod.getKey() == RequestModType.URL_POSTFIX) {
@@ -67,7 +71,7 @@ public class ApiModFilter implements OrderedFilter {
       }
     }
 
-    spec.path(builder.toString());
+    spec.baseUri(builder.toString());
   }
 
   private void modifyHeaders(FilterableRequestSpecification spec) {

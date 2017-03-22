@@ -9,13 +9,10 @@ import lombok.*;
 import org.openqa.selenium.*;
 
 @AllArgsConstructor
+@Getter
 public abstract class BaseBlock implements IWebBrowserArea, WebElement {
 
   private SelenideElement root;
-
-  public SelenideElement getRoot() {
-    return root;
-  }
 
   public SelenideElement getChild(String cssLocator) {
     return getRoot().$(cssLocator);
@@ -39,8 +36,9 @@ public abstract class BaseBlock implements IWebBrowserArea, WebElement {
   }
 
   public boolean isVisibleAtViewport() {
-    return VisibleAtViewportMatcher.isVisibleAtViewport(getRoot())
-        && getKeyElements().stream().allMatch(el -> VisibleAtViewportMatcher.isVisibleAtViewport(el));
+    return
+        VisibleAtViewportMatcher.isVisibleAtViewport(getRoot())
+            && getKeyElements().stream().allMatch(VisibleAtViewportMatcher::isVisibleAtViewport);
   }
 
   @Override

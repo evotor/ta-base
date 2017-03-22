@@ -33,10 +33,6 @@ public class SoftAssertHelper {
     );
   }
 
-  public static void reset() {
-    ASSERTIONS_SET.remove();
-  }
-
   public static void assertAll() {
     if (ASSERTIONS_SET.get().isEmpty()) {
       return;
@@ -61,6 +57,10 @@ public class SoftAssertHelper {
     ASSERTIONS_SET.remove();
 
     throw new AssertionError(combinedMsg.replace("java.lang.AssertionError: ", ""));
+  }
+
+  public static void reset() {
+    ASSERTIONS_SET.remove();
   }
 
 }

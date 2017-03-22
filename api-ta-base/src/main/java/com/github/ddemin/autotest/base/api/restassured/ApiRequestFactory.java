@@ -7,12 +7,17 @@ import static io.restassured.mapper.ObjectMapperType.*;
 
 import com.github.ddemin.autotest.base.api.json.*;
 
+import java.security.*;
+import javax.net.ssl.*;
+
 import io.restassured.*;
 import io.restassured.config.*;
 import io.restassured.http.*;
 import io.restassured.parsing.*;
 import io.restassured.path.json.config.*;
 import io.restassured.specification.*;
+import org.apache.http.conn.ssl.*;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.params.*;
 
 public class ApiRequestFactory {
@@ -22,9 +27,10 @@ public class ApiRequestFactory {
 
   static {
     RestAssured.defaultParser = Parser.JSON;
+    RestAssured.baseURI = "";
     RESTASSURED_CONFIG =
         new RestAssuredConfig()
-            .sslConfig(new SSLConfig().relaxedHTTPSValidation().allowAllHostnames())
+            .sslConfig(new SSLConfig().allowAllHostnames().relaxedHTTPSValidation())
             .encoderConfig(new EncoderConfig(ENCODING, ENCODING))
             .decoderConfig(new DecoderConfig(ENCODING))
             .jsonConfig(
@@ -45,7 +51,7 @@ public class ApiRequestFactory {
         .contentType(ContentType.JSON)
         .accept(ContentType.JSON)
         .header(CACHE_CONTROL, "no-cache")
-        .baseUri("")
+        .baseUri(RestAssured.baseURI)
         .filters(new ApiModFilter(), new ApiSaveFilter(), new ApiSlf4jAndAllureFilter());
   }
 
@@ -54,7 +60,7 @@ public class ApiRequestFactory {
         .config(RESTASSURED_CONFIG)
         .contentType(ContentType.URLENC)
         .header(CACHE_CONTROL, "no-cache")
-        .baseUri("")
+        .baseUri(RestAssured.baseURI)
         .filters(new ApiModFilter(), new ApiSaveFilter(), new ApiSlf4jAndAllureFilter());
   }
 

@@ -1,5 +1,7 @@
 package com.github.ddemin.autotest.base.cucumber;
 
+import com.github.ddemin.autotest.base.util.*;
+
 import java.io.*;
 import java.lang.annotation.*;
 import java.lang.reflect.*;
@@ -172,6 +174,7 @@ public class AllureReporter implements Reporter, Formatter {
     Allure.LIFECYCLE.fire(new TestCaseFinishedEvent());
     FLAG_STEPS_ALLOWED.set(false);
     STORIES_SCENARIO.get().clear();
+    DataSemaphore.releaseData();
   }
 
   @Synchronized
@@ -182,6 +185,7 @@ public class AllureReporter implements Reporter, Formatter {
     EXAMPLES_ROWS.remove();
     STORIES_FEATURE.get().clear();
     BaseContextStore.clean();
+    DataSemaphore.releaseData();
   }
 
   @Synchronized
