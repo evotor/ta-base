@@ -1,7 +1,6 @@
 package com.github.ddemin.autotest.base.util;
 
 import static org.awaitility.Awaitility.*;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.*;
 
 import com.github.ddemin.autotest.base.conf.*;
@@ -16,11 +15,19 @@ public class DataSemaphore {
 
   private static final Map<Object, Long> lockedDataMap = new HashMap();
 
+  public static <T> T tryToLockOneOf(Collection<T> someDataCollection) {
+    return tryToLock(someDataCollection, false);
+  }
+
+  public static <T> T tryToLockOneMore(Collection<T> someDataCollection) {
+    return tryToLock(someDataCollection, true);
+  }
+
   public static <T> T tryToLock(T someData) {
     return tryToLockOneOf(Arrays.asList(someData));
   }
 
-  public static <T> T tryToLockOneOf(Collection<T> someDataCollection) {
+  public static <T> T tryToLock(Collection<T> someDataCollection, boolean oneMoreRequired) {
     if (someDataCollection.contains(null)) {
       log.error("Test data contains NULL value");
       return null;
@@ -53,7 +60,7 @@ public class DataSemaphore {
                         lockedDataMap.put(it, currentThreadId);
                         log.info("Data was locked successfully: {}", it);
                         return it;
-                      } else if (rez.getValue() == currentThreadId) {
+                      } else if (rez.getValue() == currentThreadId && !oneMoreRequired) {
                         return it;
                       }
                     }

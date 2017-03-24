@@ -19,7 +19,7 @@ public interface IConfigTesting {
   @DefaultValue("500")
   long getAssertPoll();
 
-  @Property("testing.testdata.timeout")
+  @Property("testing.semaphore.timeout")
   @DefaultValue("60000")
   long getTestDataTimeout();
 }

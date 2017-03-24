@@ -7,12 +7,12 @@ import java.util.stream.*;
 
 import lombok.*;
 import lombok.extern.slf4j.*;
-import org.slf4j.bridge.*;
 import ru.qatools.properties.*;
 
 @Slf4j
 public class BaseConfig {
 
+  public static final IConfigTesting TESTING = PropertyLoader.newInstance().populate(IConfigTesting.class);
   private static final String PATH_TO_PROPERTIES_FOLDER
       = System.getProperty("testing.properties.folder", "./properties");
   private static Properties allProperties;
@@ -24,8 +24,6 @@ public class BaseConfig {
       log.error("", ex);
     }
   }
-
-  public static final IConfigTesting TESTING = PropertyLoader.newInstance().populate(IConfigTesting.class);
 
   @Synchronized
   public static Properties getAllProperties() throws IOException {

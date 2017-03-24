@@ -1,4 +1,4 @@
-package com.github.ddemin.autotest.base.testng;
+package com.github.ddemin.autotest.base.cucumber;
 
 import com.github.ddemin.autotest.base.conf.*;
 
@@ -10,20 +10,26 @@ import cucumber.api.*;
 import cucumber.api.testng.*;
 import org.testng.annotations.*;
 
-public class BaseCukeTests {
+/**
+ * YOU SHOULD annotate your subclass with @Test which contains dataProvider parameter = features
+ */
+public class CucumberFeatureBasedTest {
 
-  protected final ThreadLocal<TestNGCucumberRunner> testNgCucumberRunner =
-      ThreadLocal.withInitial(() -> new TestNGCucumberRunner(this.getClass()));
+  protected final ThreadLocal<TestNGCucumberRunner> threadLocalRunner
+      = ThreadLocal.withInitial(() -> new TestNGCucumberRunner(this.getClass()));
 
   @DataProvider(parallel = true)
   public Object[][] features() {
-    return testNgCucumberRunner.get().provideFeatures();
+    return threadLocalRunner.get().provideFeatures();
+  }
+
+  public void runFeature(CucumberFeatureWrapper cucumberFeature) {
+    threadLocalRunner.get().runCucumber(cucumberFeature.getCucumberFeature());
   }
 
   // TODO Refactoring
   @BeforeClass(alwaysRun = true)
   public void setUpClass() throws Exception {
-
     CucumberOptions cucOpts = this.getClass().getAnnotation(CucumberOptions.class);
     List<String> tags = new ArrayList<>();
     if (BaseConfig.TESTING.getTags() == null) {
@@ -59,11 +65,11 @@ public class BaseCukeTests {
       memberValues.put("tags", newValue);
     }
 
-    testNgCucumberRunner.set(new TestNGCucumberRunner(this.getClass()));
+    threadLocalRunner.set(new TestNGCucumberRunner(this.getClass()));
   }
 
   @AfterClass(alwaysRun = true)
   public void tearDownClass() throws Exception {
-    testNgCucumberRunner.get().finish();
+    threadLocalRunner.get().finish();
   }
 }

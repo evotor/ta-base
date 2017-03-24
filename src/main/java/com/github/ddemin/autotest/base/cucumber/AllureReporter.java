@@ -112,6 +112,7 @@ public class AllureReporter implements Reporter, Formatter {
     } else {
       scenarioName = scenario.getName();
     }
+    Thread.currentThread().setName(scenarioName);
 
     TestCaseStartedEvent event = new TestCaseStartedEvent(UID.get(), scenarioName);
     event.setTitle(scenarioName);
@@ -188,7 +189,7 @@ public class AllureReporter implements Reporter, Formatter {
     DataSemaphore.releaseData();
   }
 
-  @Synchronized
+  //@Synchronized
   @Override
   public void result(Result result) {
     if (STEP_MATCH.get() != null) {

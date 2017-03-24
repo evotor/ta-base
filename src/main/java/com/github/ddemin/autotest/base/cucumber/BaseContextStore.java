@@ -2,10 +2,10 @@ package com.github.ddemin.autotest.base.cucumber;
 
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.*;
 
-import javax.annotation.*;
-
+import lombok.*;
 import lombok.extern.slf4j.*;
 
 @Slf4j
@@ -13,7 +13,7 @@ public class BaseContextStore {
 
   private static final String LIST_MARK = "list of ";
   private static final ThreadLocal<Map<String, Map<String, Object>>> CONTEXT_MAP
-      = ThreadLocal.withInitial(LinkedHashMap::new);
+      = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
   public static <T> void put(ContextType<T> type, String context, T object) {
     if (type == null || context == null) {
@@ -97,6 +97,7 @@ public class BaseContextStore {
     CONTEXT_MAP.remove();
   }
 
+  @Synchronized
   private static <T> Map<String, Object> getContextsByType(ContextType<T> type) {
     CONTEXT_MAP.get().computeIfAbsent(type.getEntityName(), k -> new LinkedHashMap<>());
     return CONTEXT_MAP.get().get(type.getEntityName());
