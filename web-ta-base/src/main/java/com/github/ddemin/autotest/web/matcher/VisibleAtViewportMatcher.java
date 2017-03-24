@@ -8,16 +8,6 @@ import org.openqa.selenium.*;
 
 public class VisibleAtViewportMatcher extends TypeSafeMatcher<WebElement> {
 
-  @Override
-  public void describeTo(final Description description) {
-    description.appendText("element fully visible at current viewport");
-  }
-
-  @Override
-  public boolean matchesSafely(final WebElement element) {
-    return isVisibleAtViewport(element);
-  }
-
   public static boolean isVisibleAtViewport(final WebElement element) {
     if (!element.isDisplayed()) {
       return false;
@@ -44,5 +34,15 @@ public class VisibleAtViewportMatcher extends TypeSafeMatcher<WebElement> {
 
   public static VisibleAtViewportMatcher visibleAtViewport() {
     return new VisibleAtViewportMatcher();
+  }
+
+  @Override
+  public void describeTo(final Description description) {
+    description.appendText("element fully visible at current viewport");
+  }
+
+  @Override
+  public boolean matchesSafely(final WebElement element) {
+    return isVisibleAtViewport(element);
   }
 }

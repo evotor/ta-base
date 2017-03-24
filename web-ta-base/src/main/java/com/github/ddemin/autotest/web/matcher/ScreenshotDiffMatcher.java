@@ -21,20 +21,6 @@ public class ScreenshotDiffMatcher extends TypeSafeMatcher<BufferedImage> {
     this.pathToStandart = pathToStandart;
   }
 
-  @Override
-  public void describeTo(final Description description) {
-    description.appendText(
-        String.format("screenshot fully match the template %s ignoring %s pixels",
-            pathToStandart,
-            COLOR_IGNORED.toString()
-        ));
-  }
-
-  @Override
-  public boolean matchesSafely(final BufferedImage actualScreenshot) {
-    return hasDiff(actualScreenshot, pathToStandart);
-  }
-
   public static boolean hasDiff(final BufferedImage actualScreenshot, final String pathToStandart) {
     try {
       BufferedImage standartImg = ImageIO.read(ScreenshotDiffMatcher.class.getResourceAsStream(pathToStandart));
@@ -52,5 +38,19 @@ public class ScreenshotDiffMatcher extends TypeSafeMatcher<BufferedImage> {
 
   public static ScreenshotDiffMatcher hasDiffWithTemplate(String pathToStandart) {
     return new ScreenshotDiffMatcher(pathToStandart);
+  }
+
+  @Override
+  public void describeTo(final Description description) {
+    description.appendText(
+        String.format("screenshot fully match the template %s ignoring %s pixels",
+            pathToStandart,
+            COLOR_IGNORED.toString()
+        ));
+  }
+
+  @Override
+  public boolean matchesSafely(final BufferedImage actualScreenshot) {
+    return hasDiff(actualScreenshot, pathToStandart);
   }
 }

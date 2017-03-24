@@ -7,17 +7,12 @@ import static io.restassured.mapper.ObjectMapperType.*;
 
 import com.github.ddemin.autotest.base.api.json.*;
 
-import java.security.*;
-import javax.net.ssl.*;
-
 import io.restassured.*;
 import io.restassured.config.*;
 import io.restassured.http.*;
 import io.restassured.parsing.*;
 import io.restassured.path.json.config.*;
 import io.restassured.specification.*;
-import org.apache.http.conn.ssl.*;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.params.*;
 
 public class ApiRequestFactory {
