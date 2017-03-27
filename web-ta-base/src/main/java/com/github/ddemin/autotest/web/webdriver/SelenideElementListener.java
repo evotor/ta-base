@@ -14,7 +14,7 @@ import org.openqa.selenium.support.events.*;
 
 // TODO Improve extraction of By description from WebElement
 @Slf4j(topic = "selenide")
-public class SelenideElementListener implements WebDriverEventListener {
+public class SelenideElementListener extends AbstractWebDriverEventListener {
 
   private static final Pattern REGEX_DRIVER = Pattern.compile("^\\[.*Driver: (.*)\\)] -> ");
 
