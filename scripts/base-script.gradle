@@ -40,7 +40,8 @@ jar {
 
 repositories {
     maven {
-        url "http://nexus.market.local/repository/maven-public/"
+        def nexusUrl = System.getProperty("nexus.url")
+        url "$nexusUrl"
     }
     mavenLocal()
     maven {
