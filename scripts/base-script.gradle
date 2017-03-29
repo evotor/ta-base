@@ -39,11 +39,8 @@ jar {
 }
 
 repositories {
-    maven {
-        def nexusUrl = System.getProperty("nexus.url")
-        url "$nexusUrl"
-    }
     mavenLocal()
+    mavenCentral()
     maven {
         url "https://maven.atlassian.com/content/repositories/atlassian-3rdparty/"
     }
