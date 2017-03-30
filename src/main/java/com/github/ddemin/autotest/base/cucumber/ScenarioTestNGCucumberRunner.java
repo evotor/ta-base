@@ -13,6 +13,7 @@ import cucumber.runtime.io.*;
 import cucumber.runtime.model.*;
 import gherkin.formatter.model.*;
 import javafx.util.*;
+import org.testng.*;
 
 public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
   private static final String TAGS_PROPERTY = BaseConfig.TESTING.getTags();
@@ -38,6 +39,10 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
   }
 
   public void runCucumber(Pair<CucumberTagStatement, CucumberFeatureWrapperImpl> scenarioWrapper) {
+    if (scenarioWrapper == null) {
+      throw new SkipException("Test skipped");
+    }
+
     resultListener.startFeature();
 
     runtimeOptions.formatter(classLoader).uri(scenarioWrapper.getValue().getCucumberFeature().getPath());
@@ -61,7 +66,7 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
   public Object[][] provideScenarios() {
     try {
       List<CucumberFeature> features = getFeatures();
-      List<Object[]> scenarioList = new ArrayList<Object[]>(features.size());
+      List<Object[]> scenarioList = new ArrayList<>(features.size());
       for (CucumberFeature feature : features) {
         for (CucumberTagStatement element : feature.getFeatureElements()) {
           if (!isScenarioAllowed(element)) {

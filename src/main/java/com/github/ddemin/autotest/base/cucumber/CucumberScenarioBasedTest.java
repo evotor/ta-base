@@ -20,19 +20,15 @@ import org.testng.annotations.*;
  * <p>1) YOU SHOULD create a STATIC DATAPROVIDER named as 'scenarios' at your subclass !</p>
  * <p>2) Than you should (inside dataprovider) init static field clazz by value = YourSubclass.class</p>
  */
+
+@NoArgsConstructor
 public class CucumberScenarioBasedTest {
 
-  @SuppressFBWarnings
-  protected static Class clazz;
-
-  protected final ThreadLocal<ScenarioTestNGCucumberRunner> cucumberRunner = ThreadLocal.withInitial(() -> {
-    assertNotNull(clazz, "Static field CucumberScenarioBasedTest#clazz must be initialized");
-    return new ScenarioTestNGCucumberRunner(clazz);
-  });
+  protected final ThreadLocal<ScenarioTestNGCucumberRunner> cucumberRunner
+      = ThreadLocal.withInitial(() -> new ScenarioTestNGCucumberRunner(this.getClass()));
 
   private Pair<CucumberTagStatement, CucumberFeatureWrapperImpl> scenarioWrapper;
 
-  @Factory(dataProvider = "scenarios")
   public CucumberScenarioBasedTest(Pair<CucumberTagStatement, CucumberFeatureWrapperImpl> scenarioWrapper) {
     this.scenarioWrapper = scenarioWrapper;
   }
