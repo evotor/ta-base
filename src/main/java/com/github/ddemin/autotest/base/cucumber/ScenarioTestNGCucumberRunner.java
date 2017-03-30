@@ -1,15 +1,22 @@
 package com.github.ddemin.autotest.base.cucumber;
 
-import java.util.*;
+import com.github.ddemin.autotest.base.conf.*;
 
+import java.util.*;
+import java.util.stream.*;
+
+import com.google.common.base.*;
 import cucumber.api.testng.*;
 import cucumber.runtime.*;
 import cucumber.runtime.Runtime;
 import cucumber.runtime.io.*;
 import cucumber.runtime.model.*;
+import gherkin.formatter.model.*;
 import javafx.util.*;
 
 public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
+  private static final String TAGS_PROPERTY = BaseConfig.TESTING.getTags();
+
   private Runtime runtime;
   private RuntimeOptions runtimeOptions;
   private ResourceLoader resourceLoader;
@@ -57,6 +64,9 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
       List<Object[]> scenarioList = new ArrayList<Object[]>(features.size());
       for (CucumberFeature feature : features) {
         for (CucumberTagStatement element : feature.getFeatureElements()) {
+          if (!isScenarioAllowed(element)) {
+            continue;
+          }
           scenarioList.add(new Object[]{new Pair<>(element, new CucumberFeatureWrapperImpl(feature))});
         }
       }
@@ -64,5 +74,32 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
     } catch (CucumberException ex) {
       return new Object[][]{new Object[]{new Pair<>(null, new CucumberExceptionWrapper(ex))}};
     }
+  }
+
+  private static boolean isScenarioAllowed(CucumberTagStatement statement) {
+    if (TAGS_PROPERTY == null) {
+      return true;
+    }
+
+    List<String> requiredTags = new ArrayList<>();
+    List<String> scenarioTags = statement.getGherkinModel().getTags()
+        .stream()
+        .map(Tag::getName)
+        .collect(Collectors.toList());
+
+    if (TAGS_PROPERTY.matches("\\[.*\\]")) {
+      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
+    } else {
+      requiredTags.add(TAGS_PROPERTY);
+    }
+
+    if (requiredTags.size() > 1) {
+      scenarioTags.containsAll(requiredTags);
+    } else {
+      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY);
+      return requiredTags.stream().anyMatch(scenarioTags::contains);
+    }
+
+    return false;
   }
 }
