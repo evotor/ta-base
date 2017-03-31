@@ -82,7 +82,7 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
   }
 
   private static boolean isScenarioAllowed(CucumberTagStatement statement) {
-    if (TAGS_PROPERTY == null) {
+    if (TAGS_PROPERTY == null || TAGS_PROPERTY.isEmpty()) {
       return true;
     }
 
