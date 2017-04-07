@@ -38,6 +38,33 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
     runtime = new Runtime(resourceLoader, classFinder, classLoader, runtimeOptions);
   }
 
+  private static boolean isScenarioAllowed(CucumberTagStatement statement) {
+    if (TAGS_PROPERTY == null || TAGS_PROPERTY.isEmpty()) {
+      return true;
+    }
+
+    List<String> requiredTags = new ArrayList<>();
+    List<String> scenarioTags = statement.getGherkinModel().getTags()
+        .stream()
+        .map(Tag::getName)
+        .collect(Collectors.toList());
+
+    if (TAGS_PROPERTY.matches("\\[.*\\]")) {
+      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
+    } else {
+      requiredTags.add(TAGS_PROPERTY);
+    }
+
+    if (requiredTags.size() > 1) {
+      scenarioTags.containsAll(requiredTags);
+    } else {
+      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY);
+      return requiredTags.stream().anyMatch(scenarioTags::contains);
+    }
+
+    return false;
+  }
+
   public void runCucumber(Pair<CucumberTagStatement, CucumberFeatureWrapperImpl> scenarioWrapper) {
     if (scenarioWrapper == null) {
       throw new SkipException("Test skipped");
@@ -79,32 +106,5 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
     } catch (CucumberException ex) {
       return new Object[][]{new Object[]{new Pair<>(null, new CucumberExceptionWrapper(ex))}};
     }
-  }
-
-  private static boolean isScenarioAllowed(CucumberTagStatement statement) {
-    if (TAGS_PROPERTY == null || TAGS_PROPERTY.isEmpty()) {
-      return true;
-    }
-
-    List<String> requiredTags = new ArrayList<>();
-    List<String> scenarioTags = statement.getGherkinModel().getTags()
-        .stream()
-        .map(Tag::getName)
-        .collect(Collectors.toList());
-
-    if (TAGS_PROPERTY.matches("\\[.*\\]")) {
-      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
-    } else {
-      requiredTags.add(TAGS_PROPERTY);
-    }
-
-    if (requiredTags.size() > 1) {
-      scenarioTags.containsAll(requiredTags);
-    } else {
-      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY);
-      return requiredTags.stream().anyMatch(scenarioTags::contains);
-    }
-
-    return false;
   }
 }

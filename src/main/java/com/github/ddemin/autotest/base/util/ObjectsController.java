@@ -10,26 +10,26 @@ import java.util.concurrent.*;
 
 import lombok.extern.slf4j.*;
 
-@Slf4j(topic = "data_semaphore")
-public class DataSemaphore {
+@Slf4j(topic = "data_controller")
+public class ObjectsController {
 
-  private static final Map<Object, Long> lockedDataMap = new HashMap();
+  private static final Map<Object, Long> lockedObjectsMap = new HashMap<>();
 
-  public static <T> T tryToLockOneOf(Collection<T> someDataCollection) {
-    return tryToLock(someDataCollection, false);
+  public static <T> T tryToLockOneOf(Collection<T> objectsCollection) {
+    return tryToLock(objectsCollection, false);
   }
 
-  public static <T> T tryToLockOneMore(Collection<T> someDataCollection) {
-    return tryToLock(someDataCollection, true);
+  public static <T> T tryToLockOneMore(Collection<T> objectsCollection) {
+    return tryToLock(objectsCollection, true);
   }
 
-  public static <T> T tryToLock(T someData) {
-    return tryToLockOneOf(Arrays.asList(someData));
+  public static <T> T tryToLock(T object) {
+    return tryToLockOneOf(Arrays.asList(object));
   }
 
-  public static <T> T tryToLock(Collection<T> someDataCollection, boolean oneMoreRequired) {
-    if (someDataCollection.contains(null)) {
-      log.error("Test data contains NULL value");
+  public static <T> T tryToLock(Collection<T> objectsCollection, boolean oneMoreRequired) {
+    if (objectsCollection.contains(null)) {
+      log.error("Objects collection contains NULL value");
       return null;
     }
 
@@ -38,27 +38,27 @@ public class DataSemaphore {
     int interval = new Random().nextInt(2000) + 500;
 
     return
-        await("Try to lock data from " + someDataCollection)
+        await("Try to lock object from " + objectsCollection)
             .pollDelay(interval, TimeUnit.MILLISECONDS)
             .pollInterval(interval, TimeUnit.MILLISECONDS)
             .timeout(BaseConfig.TESTING.getTestDataTimeout(), TimeUnit.MILLISECONDS)
             .dontCatchUncaughtExceptions()
             .until(
                 () -> {
-                  synchronized (lockedDataMap) {
-                    Thread.currentThread().setName("data locking for " + currentThreadName);
+                  synchronized (lockedObjectsMap) {
+                    Thread.currentThread().setName("object locking for " + currentThreadName);
 
-                    log.info("Try to lock data from {}", someDataCollection);
+                    log.info("Try to lock object from {}", objectsCollection);
 
-                    for (T it : someDataCollection) {
-                      Map.Entry<Object, Long> rez = lockedDataMap.entrySet()
+                    for (T it : objectsCollection) {
+                      Map.Entry<Object, Long> rez = lockedObjectsMap.entrySet()
                           .stream()
                           .filter(entry -> entry.getKey() != null && entry.getKey().equals(it))
                           .findFirst()
                           .orElse(null);
                       if (rez == null || rez.getValue() == null) {
-                        lockedDataMap.put(it, currentThreadId);
-                        log.info("Data was locked successfully: {}", it);
+                        lockedObjectsMap.put(it, currentThreadId);
+                        log.info("Object was locked: {}", it);
                         return it;
                       } else if (rez.getValue() == currentThreadId && !oneMoreRequired) {
                         return it;
@@ -71,12 +71,12 @@ public class DataSemaphore {
             );
   }
 
-  public static void releaseData() {
-    synchronized (lockedDataMap) {
-      for (Map.Entry<Object, Long> entry : lockedDataMap.entrySet()) {
+  public static void releaseObjects() {
+    synchronized (lockedObjectsMap) {
+      for (Map.Entry<Object, Long> entry : lockedObjectsMap.entrySet()) {
         if (entry.getValue() != null && entry.getValue() == Thread.currentThread().getId()) {
           entry.setValue(null);
-          log.info("Data was unlocked: {}", entry.getKey());
+          log.info("Object was released: {}", entry.getKey());
         }
       }
     }

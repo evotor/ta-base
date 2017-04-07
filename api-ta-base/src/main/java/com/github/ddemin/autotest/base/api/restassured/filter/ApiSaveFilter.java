@@ -1,4 +1,4 @@
-package com.github.ddemin.autotest.base.api.restassured;
+package com.github.ddemin.autotest.base.api.restassured.filter;
 
 import io.restassured.filter.*;
 import io.restassured.response.*;

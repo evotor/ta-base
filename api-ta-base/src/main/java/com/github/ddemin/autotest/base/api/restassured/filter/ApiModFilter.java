@@ -1,7 +1,8 @@
-package com.github.ddemin.autotest.base.api.restassured;
+package com.github.ddemin.autotest.base.api.restassured.filter;
 
 import com.github.ddemin.autotest.base.api.json.*;
 import com.github.ddemin.autotest.base.api.model.*;
+import com.github.ddemin.autotest.base.api.restassured.*;
 
 import java.util.*;
 import java.util.stream.*;

@@ -4,14 +4,14 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import com.codeborne.selenide.*;
-import org.openqa.selenium.*;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.*;
 
 public interface IWebBrowserArea {
 
   List<WebElement> getKeyElements();
 
-  default void executeCheckDuringWaiting() {
+  default void execSomeCodeDuringWaiting() {
   }
 
   default boolean isDisplayed() {
@@ -34,10 +34,10 @@ public interface IWebBrowserArea {
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
           .until(
               (WebDriver wd) -> {
-                executeCheckDuringWaiting();
+                execSomeCodeDuringWaiting();
                 return this.isDisplayed();
               }
-        );
+          );
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }

@@ -4,9 +4,9 @@ import lombok.*;
 
 @Getter
 public class ContextType<T> {
-  private String entityName;
+  private String name;
 
-  public ContextType(String entityName) {
-    this.entityName = entityName;
+  public ContextType(String name) {
+    this.name = name;
   }
 }

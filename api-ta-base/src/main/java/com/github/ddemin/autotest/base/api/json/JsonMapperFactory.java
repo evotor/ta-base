@@ -1,36 +1,53 @@
 package com.github.ddemin.autotest.base.api.json;
 
 import java.text.*;
+import java.util.*;
+import java.util.function.*;
 
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.github.fge.jackson.*;
+import com.jayway.jsonpath.*;
+import com.jayway.jsonpath.spi.json.*;
+import com.jayway.jsonpath.spi.mapper.*;
 
 public class JsonMapperFactory {
 
+  private static Supplier<ObjectMapper> mapperSupplier;
+
+  static {
+    Configuration.setDefaults(
+        new Configuration.Defaults() {
+          @Override
+          public JsonProvider jsonProvider() {
+            return new JacksonJsonProvider(getDefaultMapper());
+          }
+
+          @Override
+          public Set<Option> options() {
+            return new HashSet<>();
+          }
+
+          @Override
+          public MappingProvider mappingProvider() {
+            return new JacksonMappingProvider(getDefaultMapper());
+          }
+        }
+    );
+  }
+
   public static ObjectMapper getDefaultMapper() {
-    return getDefaultMapper(null);
+    if (mapperSupplier == null) {
+      throw new IllegalStateException("mapperSupplier must be defined via JsonMapperFactory#setJsonMapperSupplier");
+    }
+    return mapperSupplier.get();
   }
 
   public static ObjectMapper getDefaultMapper(String dateTimeFormat) {
-    ObjectMapper mapper =
-        JacksonUtils.newMapper()
-            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-            .enable(SerializationFeature.INDENT_OUTPUT)
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    if (dateTimeFormat != null) {
-      mapper = mapper.setDateFormat(new SimpleDateFormat(dateTimeFormat));
-    }
-    return mapper;
+    return dateTimeFormat != null
+        ? getDefaultMapper().setDateFormat(new SimpleDateFormat(dateTimeFormat))
+        : getDefaultMapper();
   }
 
-  public static ObjectMapper getDefaultMapperWoNulls() {
-    return getDefaultMapperWoNulls(null);
-  }
-
-  public static ObjectMapper getDefaultMapperWoNulls(String dateTimeFormat) {
-    return getDefaultMapper(dateTimeFormat)
-        .disable(SerializationFeature.WRITE_NULL_MAP_VALUES)
-        .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  public static void setJsonMapperSupplier(Supplier<ObjectMapper> mapperSupplier) {
+    JsonMapperFactory.mapperSupplier = mapperSupplier;
   }
 }

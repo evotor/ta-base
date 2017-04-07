@@ -15,7 +15,7 @@ import org.json.*;
 import org.skyscreamer.jsonassert.*;
 
 @Slf4j
-public class JsonMatchers {
+public class JsonAssertHelper {
 
   public static <T extends Comparable> Matcher compare(String comparatorAsString, T objectExtendsComparable) {
     switch (comparatorAsString) {

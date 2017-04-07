@@ -1,5 +1,6 @@
 package com.github.ddemin.autotest.base.util;
 
+import static com.github.ddemin.autotest.base.util.AllureHelper.*;
 import static org.hamcrest.MatcherAssert.*;
 
 import com.github.ddemin.autotest.base.testng.*;
@@ -15,19 +16,19 @@ public class SoftAssertHelper {
 
   private static final ThreadLocal<Set<AssertionError>> ASSERTIONS_SET = ThreadLocal.withInitial(LinkedHashSet::new);
 
-  public static <T> void assertAndSave(String reason, T actual, Matcher<? super T> matcher) {
-    assertAndSave(reason, () -> assertThat(reason, actual, matcher));
+  public static <T> void softAssert(String reason, T actual, Matcher<? super T> matcher) {
+    softAssert(reason, () -> assertThat(reason, actual, matcher));
   }
 
-  public static void assertAndSave(String checkName, Runnable code) {
-    BaseAllureListener.execAndFireStep(checkName,
+  public static void softAssert(String checkName, Runnable code) {
+    execAsStep(checkName,
         () -> {
           try {
             code.run();
           } catch (AssertionError assertionError) {
             ASSERTIONS_SET.get().add(assertionError);
             BaseAllureListener.fireStepFailed(new AssertionError(checkName));
-            AttachHelper.attachText("Assertion trace", ExceptionUtils.getStackTrace(assertionError));
+            AllureHelper.attachText("Assertion trace", ExceptionUtils.getStackTrace(assertionError));
           }
         }
     );
@@ -45,7 +46,7 @@ public class SoftAssertHelper {
             .map(ExceptionUtils::getStackTrace)
             .collect(Collectors.toList())
         );
-    AttachHelper.attachText("Soft asserts trace", combinedTrace);
+    AllureHelper.attachText("Soft asserts trace", combinedTrace);
 
     String combinedMsg = System.lineSeparator()
         + Joiner.on(System.lineSeparator())

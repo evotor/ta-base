@@ -50,7 +50,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWo(Object entity, String... pathsToJsonNode) {
-    DocumentContext context = JsonPathFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = JsonPath.using(Configuration.defaultConfiguration()).parse(toJson(entity));
     for (String path : pathsToJsonNode) {
       context.delete(path);
     }
@@ -58,7 +58,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWo(Object entity, List<String> pathsToJsonNode) {
-    DocumentContext context = JsonPathFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = JsonPath.using(Configuration.defaultConfiguration()).parse(toJson(entity));
     for (String path : pathsToJsonNode) {
       context.delete(path);
     }
@@ -66,7 +66,7 @@ public class JsonHelper {
   }
 
   public static String toJsonWith(Object entity, String pathToNode, Object newNodeValue) {
-    DocumentContext context = JsonPathFactory.createJsonParser().parse(toJson(entity));
+    DocumentContext context = JsonPath.using(Configuration.defaultConfiguration()).parse(toJson(entity));
     context.set(pathToNode, newNodeValue);
     return context.jsonString();
   }

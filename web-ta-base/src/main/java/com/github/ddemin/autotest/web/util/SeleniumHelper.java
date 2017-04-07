@@ -3,7 +3,6 @@ package com.github.ddemin.autotest.web.util;
 import com.codeborne.selenide.*;
 import org.openqa.selenium.*;
 
-// TODO OMG! It works, but looks not pretty yet!
 public class SeleniumHelper {
 
   // TODO move to config

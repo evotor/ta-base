@@ -1,19 +1,10 @@
 package com.github.ddemin.autotest.base.cucumber;
 
-import static org.testng.Assert.*;
-
-import com.github.ddemin.autotest.base.conf.*;
-
-import java.lang.reflect.*;
-import java.util.*;
-
-import com.google.common.base.*;
-import cucumber.api.*;
 import cucumber.api.testng.*;
 import cucumber.runtime.model.*;
-import edu.umd.cs.findbugs.annotations.*;
 import javafx.util.*;
 import lombok.*;
+import org.testng.*;
 import org.testng.annotations.*;
 
 /**
@@ -22,7 +13,9 @@ import org.testng.annotations.*;
  */
 
 @NoArgsConstructor
-public class CucumberScenarioBasedTest {
+@Getter
+@Setter
+public class CucumberScenarioBasedTest implements ITest {
 
   protected final ThreadLocal<ScenarioTestNGCucumberRunner> cucumberRunner
       = ThreadLocal.withInitial(() -> new ScenarioTestNGCucumberRunner(this.getClass()));
@@ -40,5 +33,10 @@ public class CucumberScenarioBasedTest {
   @AfterClass(alwaysRun = true)
   public void tearDownClass() throws Exception {
     cucumberRunner.get().finish();
+  }
+
+  @Override
+  public String getTestName() {
+    return this.scenarioWrapper.getKey().getGherkinModel().getName();
   }
 }

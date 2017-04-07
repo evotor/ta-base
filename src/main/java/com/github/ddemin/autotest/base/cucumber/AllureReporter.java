@@ -9,15 +9,15 @@ import java.util.*;
 import java.util.regex.*;
 
 import cucumber.runtime.*;
-import gherkin.formatter.*;
 import gherkin.formatter.Formatter;
+import gherkin.formatter.*;
 import gherkin.formatter.model.*;
 import gherkin.formatter.model.Step;
 import lombok.*;
 import lombok.extern.slf4j.*;
 import ru.yandex.qatools.allure.*;
-import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.annotations.Description;
+import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.config.*;
 import ru.yandex.qatools.allure.events.*;
 import ru.yandex.qatools.allure.model.*;
@@ -175,7 +175,7 @@ public class AllureReporter implements Reporter, Formatter {
     Allure.LIFECYCLE.fire(new TestCaseFinishedEvent());
     FLAG_STEPS_ALLOWED.set(false);
     STORIES_SCENARIO.get().clear();
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   @Synchronized
@@ -186,7 +186,7 @@ public class AllureReporter implements Reporter, Formatter {
     EXAMPLES_ROWS.remove();
     STORIES_FEATURE.get().clear();
     BaseContextStore.clean();
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   //@Synchronized

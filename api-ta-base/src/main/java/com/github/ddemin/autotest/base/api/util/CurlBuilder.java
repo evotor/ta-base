@@ -25,7 +25,7 @@ public class CurlBuilder {
                     )
                 )
                 .append(NEW_LINE)
-    );
+        );
 
     if (spec.getFormParams().size() > 0) {
       rezult

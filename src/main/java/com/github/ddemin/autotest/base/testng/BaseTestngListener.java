@@ -17,19 +17,19 @@ public class BaseTestngListener implements ITestListener {
   @Override
   public void onTestSuccess(ITestResult result) {
     BaseAllureListener.finishAllStepsAsPassed();
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   @Override
   public void onTestFailure(ITestResult result) {
     BaseAllureListener.finishAllStepsAsFailed(result.getThrowable());
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     BaseAllureListener.finishAllStepsAsFailed(result.getThrowable());
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   @Override
@@ -39,7 +39,7 @@ public class BaseTestngListener implements ITestListener {
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    DataSemaphore.releaseData();
+    ObjectsController.releaseObjects();
   }
 
   @Override

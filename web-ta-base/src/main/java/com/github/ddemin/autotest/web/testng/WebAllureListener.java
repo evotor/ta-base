@@ -19,7 +19,7 @@ public class WebAllureListener extends BaseAllureListener {
       super.fire(event);
       if (hasWebDriverStarted()) {
         try {
-          AttachHelper.attachPng(
+          AllureHelper.attachPng(
               ((StepFailureEvent) event).getThrowable().getMessage(),
               ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES)
           );

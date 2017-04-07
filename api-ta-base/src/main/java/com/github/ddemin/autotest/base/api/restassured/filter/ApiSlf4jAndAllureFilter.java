@@ -1,4 +1,4 @@
-package com.github.ddemin.autotest.base.api.restassured;
+package com.github.ddemin.autotest.base.api.restassured.filter;
 
 import static java.lang.String.*;
 
@@ -31,16 +31,16 @@ public class ApiSlf4jAndAllureFilter implements OrderedFilter {
   }
 
   private void logRequest(FilterableRequestSpecification requestSpec) {
-    AttachHelper.attachText("Request", CurlBuilder.buildFromRequestSpec(requestSpec));
+    AllureHelper.attachText("Request", CurlBuilder.buildFromRequestSpec(requestSpec));
     log.info("REQUEST - {} {}", requestSpec.getMethod(), requestSpec.getURI());
   }
 
   private void logResponse(Response response) {
-    AttachHelper.attachText(
+    AllureHelper.attachText(
         format("Response headers (HTTP %d, %d ms)", response.statusCode(), response.time()),
         Objects.toString(response.getHeaders(), "")
     );
-    AttachHelper.attachJson("Response payload", response.asString());
+    AllureHelper.attachJsonOrText("Response payload", response.asString());
     log.info("RESPONSE - HTTP {}", response.statusCode());
   }
 }

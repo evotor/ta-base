@@ -36,9 +36,8 @@ public abstract class BaseBlock implements IWebBrowserArea, WebElement {
   }
 
   public boolean isVisibleAtViewport() {
-    return
-        VisibleAtViewportMatcher.isVisibleAtViewport(getRoot())
-            && getKeyElements().stream().allMatch(VisibleAtViewportMatcher::isVisibleAtViewport);
+    return VisibleAtViewportMatcher.isVisibleAtViewport(getRoot())
+        && getKeyElements().stream().allMatch(VisibleAtViewportMatcher::isVisibleAtViewport);
   }
 
   @Override

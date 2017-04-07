@@ -6,6 +6,7 @@ import static io.restassured.config.HttpClientConfig.*;
 import static io.restassured.mapper.ObjectMapperType.*;
 
 import com.github.ddemin.autotest.base.api.json.*;
+import com.github.ddemin.autotest.base.api.restassured.filter.*;
 
 import io.restassured.*;
 import io.restassured.config.*;

@@ -26,9 +26,9 @@ public class ScreenshotDiffMatcher extends TypeSafeMatcher<BufferedImage> {
       BufferedImage standartImg = ImageIO.read(ScreenshotDiffMatcher.class.getResourceAsStream(pathToStandart));
       ImageDiff diffImg = DIFFER.makeDiff(standartImg, actualScreenshot);
       if (diffImg.hasDiff()) {
-        AttachHelper.attachImg("Standard image", standartImg);
-        AttachHelper.attachImg("Actual image", actualScreenshot);
-        AttachHelper.attachImg("Diff image", diffImg.getTransparentMarkedImage());
+        AllureHelper.attachImg("Standard image", standartImg);
+        AllureHelper.attachImg("Actual image", actualScreenshot);
+        AllureHelper.attachImg("Diff image", diffImg.getTransparentMarkedImage());
       }
       return diffImg.hasDiff();
     } catch (IOException ex) {
