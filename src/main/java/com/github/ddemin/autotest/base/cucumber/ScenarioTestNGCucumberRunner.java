@@ -13,8 +13,10 @@ import cucumber.runtime.io.*;
 import cucumber.runtime.model.*;
 import gherkin.formatter.model.*;
 import javafx.util.*;
+import lombok.extern.slf4j.*;
 import org.testng.*;
 
+@Slf4j
 public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
   private static final String TAGS_PROPERTY = BaseConfig.TESTING.getTags();
 
@@ -43,26 +45,39 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
       return true;
     }
 
-    List<String> requiredTags = new ArrayList<>();
-    List<String> scenarioTags = statement.getGherkinModel().getTags()
+    List<String> requiredTags, excludedTags;
+    List<String> providedTags = new ArrayList<>();
+    List<String> currentScenarioTags = statement.getGherkinModel().getTags()
         .stream()
         .map(Tag::getName)
         .collect(Collectors.toList());
 
     if (TAGS_PROPERTY.matches("\\[.*\\]")) {
-      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
+      providedTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
     } else {
-      requiredTags.add(TAGS_PROPERTY);
+      providedTags.add(TAGS_PROPERTY);
     }
 
-    if (requiredTags.size() > 1) {
-      scenarioTags.containsAll(requiredTags);
+    if (providedTags.size() > 1) {
+      requiredTags = providedTags.stream().filter(it -> !it.startsWith("~")).collect(Collectors.toList());
+      excludedTags = providedTags.stream()
+          .filter(it -> it.startsWith("~"))
+          .map(it -> it.substring(1))
+          .collect(Collectors.toList());
+      return (requiredTags.isEmpty() || currentScenarioTags.containsAll(requiredTags))
+          && currentScenarioTags.stream().noneMatch(excludedTags::contains);
     } else {
-      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY);
-      return requiredTags.stream().anyMatch(scenarioTags::contains);
+      requiredTags = Splitter.on(',').splitToList(TAGS_PROPERTY)
+          .stream()
+          .filter(it -> !it.startsWith("~"))
+          .collect(Collectors.toList());
+      excludedTags = providedTags.stream()
+          .filter(it -> it.startsWith("~"))
+          .map(it -> it.substring(1))
+          .collect(Collectors.toList());
+      return (requiredTags.isEmpty() || requiredTags.stream().anyMatch(currentScenarioTags::contains))
+          && currentScenarioTags.stream().noneMatch(excludedTags::contains);
     }
-
-    return false;
   }
 
   public void runCucumber(Pair<CucumberTagStatement, CucumberFeatureWrapperImpl> scenarioWrapper) {
@@ -104,6 +119,7 @@ public class ScenarioTestNGCucumberRunner extends TestNGCucumberRunner {
       }
       return scenarioList.toArray(new Object[][]{});
     } catch (CucumberException ex) {
+      log.warn(ex.getMessage());
       return new Object[][]{new Object[]{new Pair<>(null, new CucumberExceptionWrapper(ex))}};
     }
   }
