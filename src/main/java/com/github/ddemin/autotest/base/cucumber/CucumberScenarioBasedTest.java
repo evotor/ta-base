@@ -37,6 +37,8 @@ public class CucumberScenarioBasedTest implements ITest {
 
   @Override
   public String getTestName() {
-    return this.scenarioWrapper.getKey().getGherkinModel().getName();
+    return this.scenarioWrapper == null
+        ? "undefined"
+        : this.scenarioWrapper.getKey().getGherkinModel().getName();
   }
 }

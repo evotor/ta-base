@@ -54,7 +54,6 @@ public class BaseConfig {
         allProperties.putAll(System.getProperties());
         System.setProperties(allProperties);
       }
-
     }
 
     return allProperties;

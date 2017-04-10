@@ -7,6 +7,13 @@ public interface IConfigTesting {
   @Property("testing.tags")
   String getTags();
 
+  @Property("testing.scenarios")
+  String getScenarios();
+
+  @Property("testing.scenarios.delimiter")
+  @DefaultValue(";")
+  String getScenariosDelimiter();
+
   @Property("testing.assert.timeout")
   @DefaultValue("5000")
   long getAssertTimeout();
