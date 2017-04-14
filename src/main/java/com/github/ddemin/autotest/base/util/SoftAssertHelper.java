@@ -21,7 +21,8 @@ public class SoftAssertHelper {
   }
 
   public static void softAssert(String checkName, Runnable code) {
-    execAsStep(checkName,
+    execAsStep(
+        checkName,
         () -> {
           try {
             code.run();
@@ -39,14 +40,13 @@ public class SoftAssertHelper {
       return;
     }
 
-    String combinedTrace = System.lineSeparator()
-        + Joiner.on(System.lineSeparator())
+    String combinedTrace = Joiner.on(System.lineSeparator())
         .join(ASSERTIONS_SET.get()
-            .stream()
-            .map(ExceptionUtils::getStackTrace)
-            .collect(Collectors.toList())
+                .stream()
+                .map(ExceptionUtils::getStackTrace)
+                .collect(Collectors.toList())
         );
-    AllureHelper.attachText("Soft asserts trace", combinedTrace);
+    AllureHelper.attachText("Soft assertions trace", combinedTrace);
 
     String combinedMsg = System.lineSeparator()
         + Joiner.on(System.lineSeparator())
@@ -55,7 +55,8 @@ public class SoftAssertHelper {
             .map(Throwable::getMessage)
             .collect(Collectors.toList())
         );
-    ASSERTIONS_SET.remove();
+
+    reset();
 
     throw new AssertionError(combinedMsg.replace("java.lang.AssertionError: ", ""));
   }

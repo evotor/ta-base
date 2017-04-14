@@ -19,7 +19,7 @@ import ru.yandex.qatools.allure.*;
 public class BaseTestngListener implements ITestListener, ISuiteListener {
 
   private static final java.util.List<String> FAILED_SCENARIOS = SynchronizedList.decorate(new ArrayList<String>());
-  private static final String FAILED_SCENARIOS_FILE_PATH = "build/failed_scenarios.txt";
+  private static final String FAILED_SCENARIOS_FILE_PATH = "build/failed_scenarios.html";
 
   static {
     SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -68,7 +68,6 @@ public class BaseTestngListener implements ITestListener, ISuiteListener {
 
   @Override
   public void onStart(ISuite suite) {
-
   }
 
   @Override
@@ -84,7 +83,14 @@ public class BaseTestngListener implements ITestListener, ISuiteListener {
       FileUtils.write(
           failedScenariosFile,
           String.format(
-              "\"%s\"",
+                "<header>"
+                  + " <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" charset=\"UTF-8\"/>"
+                  + "</header>"
+                  + "<body>"
+                  + " <h2>Failed tests separated by %s</h2>"
+                  + " <p>%s<p>"
+                  + "</body>",
+              BaseConfig.TESTING.getScenariosDelimiter(),
               Joiner.on(BaseConfig.TESTING.getScenariosDelimiter()).join(FAILED_SCENARIOS)
           ),
           Charset.forName("UTF-8")

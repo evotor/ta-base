@@ -2,6 +2,8 @@ package com.github.ddemin.autotest.base.util;
 
 import static com.github.ddemin.autotest.base.util.AllureHelper.*;
 import static org.awaitility.Awaitility.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.AssertJUnit.assertTrue;
 
 import com.github.ddemin.autotest.base.conf.*;
 
@@ -13,6 +15,25 @@ import org.hamcrest.*;
 
 @Slf4j
 public class HamcrestWrapper {
+
+  public static <T> void repeatAssertion(String reason, T actual, Matcher<? super T> matcher) {
+    repeatAssertion(
+        reason,
+        actual,
+        matcher,
+        BaseConfig.TESTING.getAssertTimeout(),
+        BaseConfig.TESTING.getAssertPoll()
+    );
+  }
+
+  public static <T> void repeatAssertion(String reason, T actual, Matcher<? super T> matcher, long timeout, long poll) {
+    repeatAssertion(
+        reason,
+        () -> assertThat(actual, matcher),
+        timeout,
+        poll
+    );
+  }
 
   public static void repeatAssertion(String reason, Runnable someCodeWithAsserts) {
     repeatAssertion(
@@ -40,6 +61,24 @@ public class HamcrestWrapper {
     );
   }
 
+  public static <T> void delayAssertion(String reason, T actual, Matcher<? super T> matcher) {
+    delayAssertion(
+        reason,
+        actual,
+        matcher,
+        BaseConfig.TESTING.getAssertDelay()
+    );
+  }
+
+  public static <T> void delayAssertion(String reason, T actual, Matcher<? super T> matcher, long delay) {
+    delayAssertion(
+        reason,
+        () -> assertThat(actual, matcher),
+        delay
+    );
+
+  }
+
   public static void delayAssertion(String reason, Runnable someCodeWithAsserts) {
     delayAssertion(reason, someCodeWithAsserts, BaseConfig.TESTING.getAssertDelay());
   }
@@ -60,14 +99,7 @@ public class HamcrestWrapper {
     execAsStep(String.format("%s (expected %s)",
         reason,
         new StringDescription().appendDescriptionOf(matcher)),
-        () -> MatcherAssert.assertThat(reason, actual, matcher)
-    );
-  }
-
-  public static void assertAsStep(String reason, boolean assertion) {
-    execAsStep(
-        String.format("%s (expected %s)", reason, assertion),
-        () -> MatcherAssert.assertThat(reason, assertion)
+        () -> assertThat(actual, matcher)
     );
   }
 }
