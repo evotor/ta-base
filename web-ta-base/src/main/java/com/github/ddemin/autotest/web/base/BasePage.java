@@ -3,18 +3,14 @@ package com.github.ddemin.autotest.web.base;
 import com.codeborne.selenide.*;
 import lombok.*;
 
-@AllArgsConstructor
-public abstract class BasePage implements IWebBrowserArea {
+public abstract class BasePage<T extends BasePage> implements IWebBrowserArea<T> {
 
-  public abstract String getExpectedUrl();
-
-  public void open() {
-    open(Configuration.timeout);
+  public BasePage() {
+    waitUntilLoaded();
   }
 
-  public void open(long msTimeout) {
-    Selenide.open(getExpectedUrl());
-    waitUntilLoaded(msTimeout);
+  public BasePage(long timeout) {
+    waitUntilLoaded(timeout);
   }
 
 }

@@ -8,11 +8,20 @@ import com.codeborne.selenide.*;
 import lombok.*;
 import org.openqa.selenium.*;
 
-@AllArgsConstructor
 @Getter
-public abstract class BaseBlock implements IWebBrowserArea, WebElement {
+public abstract class BaseBlock<T extends BaseBlock> implements IWebBrowserArea<T>, WebElement {
 
   private SelenideElement root;
+
+  public BaseBlock(SelenideElement root) {
+    this.root = root;
+    waitUntilLoaded();
+  }
+
+  public BaseBlock(SelenideElement root, long timeout) {
+    this.root = root;
+    waitUntilLoaded(timeout);
+  }
 
   public SelenideElement getChild(String cssLocator) {
     return getRoot().$(cssLocator);
@@ -30,9 +39,9 @@ public abstract class BaseBlock implements IWebBrowserArea, WebElement {
     return getRoot().$$(byLocator);
   }
 
-  public BaseBlock hover() {
+  public T hover() {
     getRoot().hover();
-    return this;
+    return (T) this;
   }
 
   public boolean isVisibleAtViewport() {

@@ -7,7 +7,7 @@ import com.codeborne.selenide.*;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.*;
 
-public interface IWebBrowserArea {
+public interface IWebBrowserArea<T extends IWebBrowserArea> {
 
   List<WebElement> getKeyElements();
 
@@ -22,14 +22,13 @@ public interface IWebBrowserArea {
     return getKeyElements().stream().noneMatch(WebElement::isDisplayed);
   }
 
-  default void waitUntilLoaded() {
-    waitUntilLoaded(Configuration.timeout);
+  default T waitUntilLoaded() {
+    return waitUntilLoaded(Configuration.timeout);
   }
 
-  default void waitUntilLoaded(long msTimeout) {
+  default T waitUntilLoaded(long msTimeout) {
     try {
-      Selenide
-          .Wait()
+      Selenide.Wait()
           .withMessage("All key elements should be loaded")
           .withTimeout(msTimeout, TimeUnit.MILLISECONDS)
           .until(
@@ -41,13 +40,14 @@ public interface IWebBrowserArea {
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
+    return (T) this;
   }
 
-  default void waitUntilDisappeared() {
-    waitUntilDisappeared(Configuration.timeout);
+  default T waitUntilDisappeared() {
+    return waitUntilDisappeared(Configuration.timeout);
   }
 
-  default void waitUntilDisappeared(long msTimeout) {
+  default T waitUntilDisappeared(long msTimeout) {
     try {
       Selenide.Wait()
           .withMessage("All key elements should be disappeared")
@@ -56,5 +56,6 @@ public interface IWebBrowserArea {
     } catch (TimeoutException ex) {
       throw new AssertionError(ex);
     }
+    return (T) this;
   }
 }
