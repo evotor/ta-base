@@ -6,11 +6,13 @@ import lombok.*;
 public abstract class BasePage<T extends BasePage> implements IWebBrowserArea<T> {
 
   public BasePage() {
-    waitUntilLoaded();
+    this(Configuration.timeout);
   }
 
   public BasePage(long timeout) {
-    waitUntilLoaded(timeout);
+    if (waitKeyElementsDuringConstruction()) {
+      waitUntilLoaded(timeout);
+    }
   }
 
 }

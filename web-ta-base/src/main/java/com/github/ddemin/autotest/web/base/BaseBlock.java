@@ -14,13 +14,14 @@ public abstract class BaseBlock<T extends BaseBlock> implements IWebBrowserArea<
   private SelenideElement root;
 
   public BaseBlock(SelenideElement root) {
-    this.root = root;
-    waitUntilLoaded();
+      this(root, Configuration.timeout);
   }
 
   public BaseBlock(SelenideElement root, long timeout) {
     this.root = root;
-    waitUntilLoaded(timeout);
+    if (waitKeyElementsDuringConstruction()) {
+      waitUntilLoaded(timeout);
+    }
   }
 
   public SelenideElement getChild(String cssLocator) {

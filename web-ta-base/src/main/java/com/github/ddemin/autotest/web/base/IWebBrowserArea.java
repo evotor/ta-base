@@ -11,6 +11,10 @@ public interface IWebBrowserArea<T extends IWebBrowserArea> {
 
   List<WebElement> getKeyElements();
 
+  default boolean waitKeyElementsDuringConstruction() {
+    return true;
+  }
+
   default void execSomeCodeDuringWaiting() {
   }
 
