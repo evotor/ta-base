@@ -11,6 +11,26 @@ task javadocJar(type: Jar, dependsOn: javadoc) { // (1)
     from javadoc.destinationDir
 }
 
+task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+task packageSources(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives(packageJavadoc) {
+        type = 'javadoc'
+    }
+
+    archives(packageSources) {
+        type = 'sources'
+    }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {

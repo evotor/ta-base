@@ -17,8 +17,8 @@ import lombok.extern.slf4j.*;
 @Slf4j
 public class ApiModFilter implements OrderedFilter {
 
-  public static final ThreadLocal<List<Pair<RequestModType, List<Object>>>> REQUEST_MODS =
-      ThreadLocal.withInitial(ArrayList::new);
+  public static final ThreadLocal<List<Pair<RequestModType, List<Object>>>> REQUEST_MODS
+      = ThreadLocal.withInitial(ArrayList::new);
 
   public static void registerMod(RequestModType modType, List<Object> modParams) {
     REQUEST_MODS.get().add(new Pair<>(modType, modParams));
