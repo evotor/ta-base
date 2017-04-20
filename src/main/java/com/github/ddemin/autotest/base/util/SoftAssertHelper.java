@@ -1,6 +1,7 @@
 package com.github.ddemin.autotest.base.util;
 
 import static com.github.ddemin.autotest.base.util.AllureHelper.*;
+import static com.github.ddemin.autotest.base.util.HamcrestWrapper.assertAsStep;
 import static org.hamcrest.MatcherAssert.*;
 
 import com.github.ddemin.autotest.base.testng.*;
@@ -17,7 +18,7 @@ public class SoftAssertHelper {
   private static final ThreadLocal<Set<AssertionError>> ASSERTIONS_SET = ThreadLocal.withInitial(LinkedHashSet::new);
 
   public static <T> void softAssert(String reason, T actual, Matcher<? super T> matcher) {
-    softAssert(reason, () -> assertThat(reason, actual, matcher));
+    softAssert(reason, () -> assertAsStep(reason, actual, matcher));
   }
 
   public static void softAssert(String checkName, Runnable code) {

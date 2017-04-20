@@ -1,4 +1,4 @@
-Useful libraries for tests automation based on Java (Groovy) programming language
+Useful libraries for tests automation based on Java programming language and different libraries
 ===================
 
 Parts
@@ -15,7 +15,7 @@ Powered by
  3. [Cucumber JVM](https://cucumber.io/docs) and [Kirlionik cucumber plugin for Allure](https://github.com/kirlionik/allure-cucumber-plugin)
  4. [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/)
  5. [Selenide](http://selenide.org/)
- 6. [Yandex Allure / Properties / AShot](http://qatools.ru/)
+ 6. [Yandex Allure / Properties / AShot / WebDriver Matchers](http://qatools.ru/)
  7. [Rest-Assured](https://github.com/rest-assured/rest-assured/wiki/GettingStarted)
  8. [Hamcrest Matchers](http://hamcrest.org/JavaHamcrest/)
  9. [Lombok](https://projectlombok.org/)
@@ -28,23 +28,19 @@ Requirements
 
  1. JDK 8+
  2. Gradle 3.3+
- 3. Lombok plugin for IDE that you use
+ 3. Lombok plugin for IDE which you use
  4. Code style settings that matches config/checksyle/checkstyle.xml
     For Intellij IDEA you can use config/codestyle/Code style for IDEA.xml
 
 Publishing (temporary workaround)
 -------------
 
-For publishing into local Maven repository you can use command:
-
-    gradle rebuildAndPublish
-
-
-For publishing api and web parts into local Maven repository with ta-base (because it dependency for api and web):
-
-    gradle rebuildAndPublishWithSubs
-
-
+ - Publish only to local maven repo and Nexus (via username/password)
+ - For publishing into local Maven repository you can use command inside folder of each module:
+ 
+```sh
+    gradle rebuildAndPublish -Dnexus.user=nexusLogin -Dnexus.password=nexusPass -Dnexus.repo.releases=http://nexusUrl/releasesRepositoryPath/ -Dnexus.repo.snapshots=http://nexusUrl/snapshotsRepositoryPath
+```
 
 Code static analysis
 -------------
@@ -60,9 +56,9 @@ CSA frameworks:
 
 TODO
 -------------
-
- - build and deploy to Maven Central via Travis CI
  - java docs
+ - build and deploy to Maven Central via Travis CI
+ - static analysis via SonarQube 
  - unit tests
+ - module for interactions with databases via JDBI 3 (not sure)
  - module for interactions with e-mail servers (not sure)
- - module for interactions with databases (not sure)

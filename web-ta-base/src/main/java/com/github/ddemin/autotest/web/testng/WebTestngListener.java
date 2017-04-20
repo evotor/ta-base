@@ -1,6 +1,12 @@
 package com.github.ddemin.autotest.web.testng;
 
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.hasWebDriverStarted;
+
+import com.github.ddemin.autotest.base.util.*;
+
 import lombok.extern.slf4j.*;
+import org.openqa.selenium.*;
 import org.testng.*;
 import ru.yandex.qatools.allure.*;
 
@@ -19,7 +25,16 @@ public class WebTestngListener implements ITestListener {
 
   @Override
   public void onTestFailure(ITestResult result) {
-
+    if (hasWebDriverStarted()) {
+      try {
+        AllureHelper.attachPng(
+            result.getThrowable().getMessage(),
+            (((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES))
+        );
+      } catch (WebDriverException ex) {
+        log.error(ex.getMessage(), ex);
+      }
+    }
   }
 
   @Override
@@ -28,6 +43,7 @@ public class WebTestngListener implements ITestListener {
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    this.onTestFailure(result);
   }
 
   @Override

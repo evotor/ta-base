@@ -36,12 +36,3 @@ tasks.withType(Pmd) {
 configurations.errorprone {
     resolutionStrategy.force "com.google.errorprone:error_prone_core:2.0.1"
 }
-sonarqube {
-    properties {
-        property "sonar.host.url", "https://sonarqube.com"
-        property "sonar.forceAuthentication", true
-        property "sonar.projectName", theName
-        property "sonar.projectKey", "$theGroup:$theName"
-        property "sonar.sourceEncoding", "UTF-8"
-    }
-}

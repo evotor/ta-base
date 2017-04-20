@@ -21,7 +21,6 @@ buildscript {
 
 apply plugin: io.franzbecker.gradle.lombok.LombokPlugin
 apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
-apply plugin: org.sonarqube.gradle.SonarQubePlugin
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8
@@ -33,8 +32,7 @@ jar {
     dependsOn ':pmdMain', ':findbugsMain', ':checkstyleMain'
     baseName = theName
     manifest {
-        attributes 'Implementation-Title': theName,
-                'Implementation-Version': version
+        attributes 'Implementation-Title': theName, 'Implementation-Version': version
     }
 }
 

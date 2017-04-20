@@ -8,9 +8,9 @@ import org.apache.commons.lang3.*;
 public class RandomHelper {
 
   private static final String ALPHABET_RU = "абвгдеёж зийклмно прстуфх цшщъьэюя АБВГДЕЖ ЗКЛМНОП СТУФХЦЧЩ ШЪЬЭЮЯ";
-  private static final String TEST_MARK_RU = "автотест";
-  private static final String TEST_MARK_EN = "autotest";
-  private static final String EMAIL_DOMAIN = "@somemail.ru";
+  private static final String TEST_MARK_RU = "ат";
+  private static final String TEST_MARK_EN = "at";
+  private static final String EMAIL_DOMAIN = "@somedomain.com";
   private static final String TEST_PHONE_MARK = "7000";
 
   public static String randomRu(int lettersCount) {

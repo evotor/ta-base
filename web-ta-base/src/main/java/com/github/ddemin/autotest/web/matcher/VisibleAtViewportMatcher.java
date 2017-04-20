@@ -38,7 +38,7 @@ public class VisibleAtViewportMatcher extends TypeSafeMatcher<WebElement> {
 
   @Override
   public void describeTo(final Description description) {
-    description.appendText("element fully visible at current viewport");
+    description.appendText("element displayed and fully visible at current viewport");
   }
 
   @Override

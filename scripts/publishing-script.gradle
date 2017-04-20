@@ -21,13 +21,14 @@ task packageSources(type: Jar) {
     classifier = 'sources'
 }
 
+
 artifacts {
     archives(packageJavadoc) {
-        type = 'javadoc'
+        type = 'jar'
     }
 
     archives(packageSources) {
-        type = 'sources'
+        type = 'jar'
     }
 }
 
@@ -39,10 +40,10 @@ publishing {
             version theVersion
 
             from components.java
-            artifact(javadocJar) { // (3)
+            artifact(javadocJar) {
                 classifier = 'javadoc'
             }
-            artifact(sourcesJar) { // (3)
+            artifact(sourcesJar) {
                 classifier = 'sources'
             }
         }
@@ -56,6 +57,7 @@ uploadArchives {
             def password = System.getProperty("nexus.password", "")
             def releasesRepo = System.getProperty("nexus.repo.releases", "")
             def snapshotsRepo = System.getProperty("nexus.repo.snapshots", "")
+
 
             repository(url: "$releasesRepo") {
                 println "Releases repository is $url. User is '$user'"
@@ -74,9 +76,3 @@ uploadArchives {
 }
 
 task rebuildAndPublish(dependsOn: ['clean', 'publishToMavenLocal', 'uploadArchives'])
-
-task rebuildAndPublishSubs {
-    dependsOn gradle.includedBuilds*.task(':rebuildAndPublish')
-}
-
-task rebuildAndPublishWithSubs(dependsOn: ['rebuildAndPublishSubs', 'rebuildAndPublish'])

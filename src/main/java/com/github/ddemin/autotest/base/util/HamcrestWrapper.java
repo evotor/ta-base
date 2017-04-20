@@ -27,11 +27,24 @@ public class HamcrestWrapper {
   }
 
   public static <T> void repeatAssertion(String reason, T actual, Matcher<? super T> matcher, long timeout, long poll) {
-    repeatAssertion(
-        reason,
-        () -> assertThat(actual, matcher),
-        timeout,
-        poll
+    execAsStep(
+        String.format(
+            "REPEATABLE (%d ms): %s (expected %s)",
+            timeout,
+            reason,
+            new StringDescription().appendDescriptionOf(matcher)
+        ),
+        () -> {
+          try {
+            await(reason)
+                .with().timeout(timeout, TimeUnit.MILLISECONDS)
+                .and().pollInterval(poll, TimeUnit.MILLISECONDS)
+                .and()
+                .until(() -> assertThat(actual, matcher));
+          } catch (ConditionTimeoutException ex) {
+            throw new AssertionError(reason + System.lineSeparator() + ex.getMessage());
+          }
+        }
     );
   }
 
@@ -46,7 +59,11 @@ public class HamcrestWrapper {
 
   public static void repeatAssertion(String reason, Runnable someCodeWithAsserts, long timeout, long poll) {
     execAsStep(
-        String.format("REPEATABLE (%d ms): %s", timeout, reason),
+        String.format(
+            "REPEATABLE (%d ms): %s",
+            timeout,
+            reason
+        ),
         () -> {
           try {
             await(reason)
@@ -71,12 +88,16 @@ public class HamcrestWrapper {
   }
 
   public static <T> void delayAssertion(String reason, T actual, Matcher<? super T> matcher, long delay) {
-    delayAssertion(
-        reason,
-        () -> assertThat(actual, matcher),
-        delay
+    try {
+      Thread.sleep(delay);
+    } catch (InterruptedException ex) {
+      log.debug(ex.getMessage());
+    }
+    assertAsStep(
+        String.format("DELAYED (%d ms): %s ", delay, reason),
+        actual,
+        matcher
     );
-
   }
 
   public static void delayAssertion(String reason, Runnable someCodeWithAsserts) {
