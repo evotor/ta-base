@@ -36,12 +36,16 @@ Publishing (temporary workaround)
 -------------
 
  - Publish only to local maven repo and Nexus (via username/password)
- - For publishing into local Maven repository you can use command inside folder of each module:
+ - For publishing both into local Maven repository and Nexus you can use command inside folder of each module:
  
 ```sh
     gradle rebuildAndPublish -Dnexus.user=nexusLogin -Dnexus.password=nexusPass -Dnexus.repo.releases=http://nexusUrl/releasesRepositoryPath/ -Dnexus.repo.snapshots=http://nexusUrl/snapshotsRepositoryPath
 ```
+ - For publishing only into local Maven repository you can use command inside folder of each module:
 
+```sh
+    gradle clean publishToMavenLocal
+```
 Code static analysis
 -------------
 
