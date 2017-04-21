@@ -18,8 +18,12 @@ public class BaseTestngListener implements ITestListener {
 
   @Override
   public void onTestSuccess(ITestResult result) {
-    BaseAllureListener.finishAllStepsAsPassed();
-    ObjectsController.releaseObjects();
+    if (result.getStatus() == ITestResult.SUCCESS) {
+      BaseAllureListener.finishAllStepsAsPassed();
+      ObjectsController.releaseObjects();
+    } else {
+      onTestFailure(result);
+    }
   }
 
   @Override
@@ -30,8 +34,7 @@ public class BaseTestngListener implements ITestListener {
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    BaseAllureListener.finishAllStepsAsFailed(result.getThrowable());
-    ObjectsController.releaseObjects();
+    onTestFailure(result);
   }
 
   @Override

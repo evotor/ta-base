@@ -22,7 +22,6 @@ public class WebAllureListener extends BaseAllureListener {
   @Override
   public void fire(StepEvent event) {
     if (event instanceof StepFailureEvent) {
-      super.fire(event);
       if (hasWebDriverStarted()) {
         try {
           byte[] currentScreenshotBytes = (((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES));
