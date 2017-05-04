@@ -50,16 +50,16 @@ Code static analysis
 -------------
 
 Used style guides:
- 1. [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html) with some changes
+ 1. [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
 
 CSA frameworks:
  1. [Findbugs](http://findbugs.sourceforge.net/)
  2. [PMD](https://pmd.github.io/)
  3. [Checkstyle](http://checkstyle.sourceforge.net/)
- 4. [Error Prone](http://errorprone.info/)
 
 TODO
 -------------
+ - split to different projects
  - java docs
  - build and deploy to Maven Central via Travis CI
  - static analysis via SonarQube 
