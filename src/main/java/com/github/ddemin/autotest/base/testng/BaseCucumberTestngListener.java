@@ -1,21 +1,26 @@
 package com.github.ddemin.autotest.base.testng;
 
-import com.github.ddemin.autotest.base.conf.*;
-
-import java.io.*;
-import java.nio.charset.*;
-import java.util.*;
-
-import com.google.common.base.*;
-import lombok.extern.slf4j.*;
-import org.apache.commons.collections.list.*;
-import org.apache.commons.io.*;
-import org.testng.*;
+import com.github.ddemin.autotest.base.conf.BaseConfig;
+import com.google.common.base.Joiner;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.list.SynchronizedList;
+import org.apache.commons.io.FileUtils;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
 
 @Slf4j
 public class BaseCucumberTestngListener implements ITestListener, ISuiteListener {
 
-  private static final List<String> FAILED_SCENARIOS = SynchronizedList.decorate(new ArrayList<String>());
+  private static final List<String> FAILED_SCENARIOS = SynchronizedList
+      .decorate(new ArrayList<String>());
   private static final String FAILED_SCENARIOS_FILE_PATH = "build/failed_scenarios.html";
 
   @Override
@@ -42,11 +47,16 @@ public class BaseCucumberTestngListener implements ITestListener, ISuiteListener
           failedScenariosFile,
           String.format(
               "<header>"
-                  + " <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" charset=\"UTF-8\"/>"
+                  + "<meta"
+                  + "http-equiv=\"Content-Type\""
+                  + "content=\"text/html; "
+                  + "charset=UTF-8\" "
+                  + "charset=\"UTF-8\""
+                  + "/>"
                   + "</header>"
                   + "<body>"
-                  + " <h2>Failed tests separated by %s</h2>"
-                  + " <p>%s<p>"
+                  + "<h2>Failed tests separated by %s</h2>"
+                  + "<p>%s<p>"
                   + "</body>",
               BaseConfig.TESTING.getScenariosDelimiter(),
               Joiner.on(BaseConfig.TESTING.getScenariosDelimiter()).join(FAILED_SCENARIOS)
@@ -56,6 +66,10 @@ public class BaseCucumberTestngListener implements ITestListener, ISuiteListener
     } catch (IOException ex) {
       log.error(ex.getMessage());
     }
+  }
+
+  @Override
+  public void onFinish(ITestContext context) {
   }
 
   @Override
@@ -72,10 +86,6 @@ public class BaseCucumberTestngListener implements ITestListener, ISuiteListener
 
   @Override
   public void onStart(ITestContext context) {
-  }
-
-  @Override
-  public void onFinish(ITestContext context) {
   }
 
   @Override

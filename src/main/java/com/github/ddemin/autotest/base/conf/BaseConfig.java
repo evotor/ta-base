@@ -1,18 +1,22 @@
 package com.github.ddemin.autotest.base.conf;
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.stream.*;
-
-import lombok.*;
-import lombok.extern.slf4j.*;
-import ru.qatools.properties.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Properties;
+import java.util.stream.Stream;
+import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
+import ru.qatools.properties.PropertyLoader;
 
 @Slf4j
 public class BaseConfig {
 
-  public static final IConfigTesting TESTING = PropertyLoader.newInstance().populate(IConfigTesting.class);
+  public static final IConfigTesting TESTING = PropertyLoader.newInstance()
+      .populate(IConfigTesting.class);
   private static final String PATH_TO_PROPERTIES_FOLDER
       = System.getProperty("testing.properties.folder", "./properties");
   private static Properties allProperties;

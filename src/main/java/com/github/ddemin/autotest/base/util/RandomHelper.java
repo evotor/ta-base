@@ -1,24 +1,26 @@
 package com.github.ddemin.autotest.base.util;
 
-import java.math.*;
-import java.text.*;
-
-import org.apache.commons.lang3.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class RandomHelper {
 
-  private static final String ALPHABET_RU = "абвгдеёж зийклмно прстуфх цшщъьэюя АБВГДЕЖ ЗКЛМНОП СТУФХЦЧЩ ШЪЬЭЮЯ";
+  private static final String ALPHABET_RU
+      = "абвгдеёж зийклмно прстуфх цшщъьэюя АБВГДЕЖ ЗКЛМНОП СТУФХЦЧЩ ШЪЬЭЮЯ";
   private static final String TEST_MARK_RU = "ат";
   private static final String TEST_MARK_EN = "at";
   private static final String EMAIL_DOMAIN = "@somedomain.com";
   private static final String TEST_PHONE_MARK = "7000";
 
   public static String randomRu(int lettersCount) {
-    return TEST_MARK_RU + RandomStringUtils.random(lettersCount - TEST_MARK_EN.length(), ALPHABET_RU).trim();
+    return TEST_MARK_RU + RandomStringUtils
+        .random(lettersCount - TEST_MARK_EN.length(), ALPHABET_RU).trim();
   }
 
   public static String randomEn(int lettersCount) {
-    return TEST_MARK_EN + RandomStringUtils.random(lettersCount - TEST_MARK_EN.length(), true, false);
+    return TEST_MARK_EN + RandomStringUtils
+        .random(lettersCount - TEST_MARK_EN.length(), true, false);
   }
 
   public static String randomMail() {
@@ -28,7 +30,8 @@ public class RandomHelper {
         + EMAIL_DOMAIN;
   }
 
-  public static BigDecimal randomBigDecimal(float startInclusive, float endInclusive, String format) {
+  public static BigDecimal randomBigDecimal(float startInclusive, float endInclusive,
+      String format) {
     return new BigDecimal(
         new DecimalFormat(format)
             .format(org.apache.commons.lang3.RandomUtils.nextFloat(startInclusive, endInclusive))

@@ -1,11 +1,12 @@
 package com.github.ddemin.autotest.base.testng;
 
-import com.github.ddemin.autotest.base.util.*;
-
-import lombok.extern.slf4j.*;
-import org.slf4j.bridge.*;
-import org.testng.*;
-import ru.yandex.qatools.allure.*;
+import com.github.ddemin.autotest.base.util.ObjectsController;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.bridge.SLF4JBridgeHandler;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+import ru.yandex.qatools.allure.Allure;
 
 @Slf4j
 public class BaseTestngListener implements ITestListener {

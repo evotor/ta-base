@@ -1,20 +1,30 @@
 package com.github.ddemin.autotest.base.testng;
 
-import java.util.*;
-
-import lombok.*;
-import lombok.extern.slf4j.*;
-import ru.yandex.qatools.allure.*;
-import ru.yandex.qatools.allure.events.*;
-import ru.yandex.qatools.allure.experimental.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import ru.yandex.qatools.allure.Allure;
+import ru.yandex.qatools.allure.events.StepEvent;
+import ru.yandex.qatools.allure.events.StepFailureEvent;
+import ru.yandex.qatools.allure.events.StepFinishedEvent;
+import ru.yandex.qatools.allure.events.StepStartedEvent;
+import ru.yandex.qatools.allure.events.TestCaseFinishedEvent;
+import ru.yandex.qatools.allure.events.TestCaseStartedEvent;
+import ru.yandex.qatools.allure.experimental.LifecycleListener;
 
 // TODO refactor EXCEPTION_LAST
 @Slf4j(topic = "allure")
 public class BaseAllureListener extends LifecycleListener {
 
   public static final ThreadLocal<Throwable> EXCEPTION_LAST = ThreadLocal.withInitial(() -> null);
-  protected static final ThreadLocal<Stack<AllureStep>> STEPS_STACK = ThreadLocal.withInitial(Stack::new);
-  protected static final ThreadLocal<Stack<String>> TESTS_STACK = ThreadLocal.withInitial(Stack::new);
+  protected static final ThreadLocal<Stack<AllureStep>> STEPS_STACK = ThreadLocal
+      .withInitial(Stack::new);
+  protected static final ThreadLocal<Stack<String>> TESTS_STACK = ThreadLocal
+      .withInitial(Stack::new);
 
   public static void fireStepStarted(String stepTitle) {
     if (EXCEPTION_LAST.get() != null
@@ -77,7 +87,7 @@ public class BaseAllureListener extends LifecycleListener {
             .childSteps(new ArrayList<>())
             .build();
     log.info("STARTED  - {}", newStep.getTitle());
-    if (!STEPS_STACK.get().empty()){
+    if (!STEPS_STACK.get().empty()) {
       STEPS_STACK.get().peek().getChildSteps().add(newStep);
     }
     STEPS_STACK.get().push(newStep);
@@ -103,6 +113,7 @@ public class BaseAllureListener extends LifecycleListener {
   @Setter
   @Builder
   public static class AllureStep {
+
     private String title;
     private boolean isFailed;
     private List<AllureStep> childSteps = new ArrayList<>();

@@ -1,12 +1,12 @@
 package com.github.ddemin.autotest.base.cucumber;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-
-import lombok.*;
-import lombok.extern.slf4j.*;
+import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
+import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BaseContextStore {

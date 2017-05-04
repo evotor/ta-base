@@ -1,13 +1,14 @@
 package com.github.ddemin.autotest.base.util;
 
-import java.awt.image.*;
-import java.io.*;
-import java.nio.charset.*;
-import javax.imageio.*;
-
-import com.cedarsoftware.util.io.*;
-import lombok.extern.slf4j.*;
-import ru.yandex.qatools.allure.annotations.*;
+import com.cedarsoftware.util.io.JsonWriter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
+import ru.yandex.qatools.allure.annotations.Attachment;
+import ru.yandex.qatools.allure.annotations.Step;
 
 @Slf4j
 public class AllureHelper {

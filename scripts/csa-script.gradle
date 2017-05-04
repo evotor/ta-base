@@ -3,7 +3,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 checkstyle {
-    toolVersion = "7.3"
+    toolVersion = "7.7"
 }
 
 tasks.withType(Checkstyle) {
@@ -31,8 +31,4 @@ tasks.withType(Pmd) {
         xml.enabled true
         html.enabled false
     }
-}
-
-configurations.errorprone {
-    resolutionStrategy.force "com.google.errorprone:error_prone_core:2.0.1"
 }

@@ -1,27 +1,57 @@
 package com.github.ddemin.autotest.base.cucumber;
 
-import com.github.ddemin.autotest.base.util.*;
-
-import java.io.*;
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.regex.*;
-
-import cucumber.runtime.*;
+import com.github.ddemin.autotest.base.util.ObjectsController;
+import cucumber.runtime.StepDefinitionMatch;
 import gherkin.formatter.Formatter;
-import gherkin.formatter.*;
-import gherkin.formatter.model.*;
+import gherkin.formatter.Reporter;
+import gherkin.formatter.model.Background;
+import gherkin.formatter.model.Examples;
+import gherkin.formatter.model.ExamplesTableRow;
+import gherkin.formatter.model.Feature;
+import gherkin.formatter.model.Match;
+import gherkin.formatter.model.Result;
+import gherkin.formatter.model.Scenario;
+import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
-import lombok.*;
-import lombok.extern.slf4j.*;
-import ru.yandex.qatools.allure.*;
+import gherkin.formatter.model.Tag;
+import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
+import ru.yandex.qatools.allure.Allure;
 import ru.yandex.qatools.allure.annotations.Description;
-import ru.yandex.qatools.allure.annotations.*;
-import ru.yandex.qatools.allure.config.*;
-import ru.yandex.qatools.allure.events.*;
-import ru.yandex.qatools.allure.model.*;
-import ru.yandex.qatools.allure.utils.*;
+import ru.yandex.qatools.allure.annotations.Features;
+import ru.yandex.qatools.allure.annotations.Issue;
+import ru.yandex.qatools.allure.annotations.Issues;
+import ru.yandex.qatools.allure.annotations.Severity;
+import ru.yandex.qatools.allure.annotations.Stories;
+import ru.yandex.qatools.allure.annotations.TestCaseId;
+import ru.yandex.qatools.allure.config.AllureModelUtils;
+import ru.yandex.qatools.allure.events.MakeAttachmentEvent;
+import ru.yandex.qatools.allure.events.StepCanceledEvent;
+import ru.yandex.qatools.allure.events.StepFailureEvent;
+import ru.yandex.qatools.allure.events.StepFinishedEvent;
+import ru.yandex.qatools.allure.events.StepStartedEvent;
+import ru.yandex.qatools.allure.events.TestCaseCanceledEvent;
+import ru.yandex.qatools.allure.events.TestCaseFailureEvent;
+import ru.yandex.qatools.allure.events.TestCaseFinishedEvent;
+import ru.yandex.qatools.allure.events.TestCaseStartedEvent;
+import ru.yandex.qatools.allure.events.TestSuiteFinishedEvent;
+import ru.yandex.qatools.allure.events.TestSuiteStartedEvent;
+import ru.yandex.qatools.allure.model.DescriptionType;
+import ru.yandex.qatools.allure.model.SeverityLevel;
+import ru.yandex.qatools.allure.utils.AnnotationManager;
 
 /**
  * EPAM AllureReporter which was modified and adapted for multi-threading.
@@ -39,11 +69,14 @@ public class AllureReporter implements Reporter, Formatter {
   private static final Pattern PATTERN_SEVERITY = Pattern.compile("@SeverityLevel\\.(.+)");
   private static final Pattern PATTERN_ISSUE = Pattern.compile("@Issue\\(\"+?([^\"]+)\"+?\\)");
   private static final Pattern PATTER_TC_ID = Pattern.compile("@TestCaseId\\(\"+?([^\"]+)\"+?\\)");
-  private static final Pattern PATTERN_STORIES_ID = Pattern.compile("@Stories\\(\"+?([^\"]+)\"+?\\)");
+  private static final Pattern PATTERN_STORIES_ID = Pattern
+      .compile("@Stories\\(\"+?([^\"]+)\"+?\\)");
 
   private static final ThreadLocal<Feature> FEATURE = ThreadLocal.withInitial(() -> (Feature) null);
-  private static final ThreadLocal<List<Stories>> STORIES_FEATURE = ThreadLocal.withInitial(ArrayList::new);
-  private static final ThreadLocal<List<Stories>> STORIES_SCENARIO = ThreadLocal.withInitial(ArrayList::new);
+  private static final ThreadLocal<List<Stories>> STORIES_FEATURE = ThreadLocal
+      .withInitial(ArrayList::new);
+  private static final ThreadLocal<List<Stories>> STORIES_SCENARIO = ThreadLocal
+      .withInitial(ArrayList::new);
   private static final ThreadLocal<StepDefinitionMatch> STEP_MATCH =
       ThreadLocal.withInitial(() -> (StepDefinitionMatch) null);
   private static final ThreadLocal<LinkedList<Step>> STEPS =

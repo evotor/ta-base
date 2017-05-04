@@ -1,21 +1,20 @@
 package com.github.ddemin.autotest.base.util;
 
-import static com.github.ddemin.autotest.base.util.AllureHelper.*;
+import static com.github.ddemin.autotest.base.util.AllureHelper.execAsStep;
 import static com.github.ddemin.autotest.base.util.HamcrestWrapper.assertAsStep;
-import static org.hamcrest.MatcherAssert.*;
 
-import com.github.ddemin.autotest.base.testng.*;
-
-import java.util.*;
-import java.util.stream.*;
-
-import com.google.common.base.*;
-import org.apache.commons.lang3.exception.*;
-import org.hamcrest.*;
+import com.github.ddemin.autotest.base.testng.BaseAllureListener;
+import com.google.common.base.Joiner;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.hamcrest.Matcher;
 
 public class SoftAssertHelper {
 
-  private static final ThreadLocal<Set<AssertionError>> ASSERTIONS_SET = ThreadLocal.withInitial(LinkedHashSet::new);
+  private static final ThreadLocal<Set<AssertionError>> ASSERTIONS_SET = ThreadLocal
+      .withInitial(LinkedHashSet::new);
 
   public static <T> void softAssert(String reason, T actual, Matcher<? super T> matcher) {
     softAssert(reason, () -> assertAsStep(reason, actual, matcher));
@@ -30,7 +29,8 @@ public class SoftAssertHelper {
           } catch (AssertionError assertionError) {
             ASSERTIONS_SET.get().add(assertionError);
             BaseAllureListener.fireStepFailed(new AssertionError(checkName));
-            AllureHelper.attachText("Assertion trace", ExceptionUtils.getStackTrace(assertionError));
+            AllureHelper
+                .attachText("Assertion trace", ExceptionUtils.getStackTrace(assertionError));
           }
         }
     );
@@ -43,9 +43,9 @@ public class SoftAssertHelper {
 
     String combinedTrace = Joiner.on(System.lineSeparator())
         .join(ASSERTIONS_SET.get()
-                .stream()
-                .map(ExceptionUtils::getStackTrace)
-                .collect(Collectors.toList())
+            .stream()
+            .map(ExceptionUtils::getStackTrace)
+            .collect(Collectors.toList())
         );
     AllureHelper.attachText("Soft assertions trace", combinedTrace);
 

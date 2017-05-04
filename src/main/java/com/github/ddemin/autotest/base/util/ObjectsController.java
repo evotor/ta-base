@@ -1,14 +1,16 @@
 package com.github.ddemin.autotest.base.util;
 
-import static org.awaitility.Awaitility.*;
-import static org.hamcrest.core.IsNull.*;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.core.IsNull.notNullValue;
 
-import com.github.ddemin.autotest.base.conf.*;
-
-import java.util.*;
-import java.util.concurrent.*;
-
-import lombok.extern.slf4j.*;
+import com.github.ddemin.autotest.base.conf.BaseConfig;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j(topic = "data_controller")
 public class ObjectsController {

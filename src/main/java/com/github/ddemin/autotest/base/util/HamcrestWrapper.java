@@ -1,17 +1,15 @@
 package com.github.ddemin.autotest.base.util;
 
-import static com.github.ddemin.autotest.base.util.AllureHelper.*;
-import static org.awaitility.Awaitility.*;
+import static com.github.ddemin.autotest.base.util.AllureHelper.execAsStep;
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.AssertJUnit.assertTrue;
 
-import com.github.ddemin.autotest.base.conf.*;
-
-import java.util.concurrent.*;
-
-import lombok.extern.slf4j.*;
-import org.awaitility.core.*;
-import org.hamcrest.*;
+import com.github.ddemin.autotest.base.conf.BaseConfig;
+import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.awaitility.core.ConditionTimeoutException;
+import org.hamcrest.Matcher;
+import org.hamcrest.StringDescription;
 
 @Slf4j
 public class HamcrestWrapper {
@@ -26,7 +24,8 @@ public class HamcrestWrapper {
     );
   }
 
-  public static <T> void repeatAssertion(String reason, T actual, Matcher<? super T> matcher, long timeout, long poll) {
+  public static <T> void repeatAssertion(String reason, T actual, Matcher<? super T> matcher,
+      long timeout, long poll) {
     execAsStep(
         String.format(
             "REPEATABLE (%d ms): %s (expected %s)",
@@ -57,7 +56,8 @@ public class HamcrestWrapper {
     );
   }
 
-  public static void repeatAssertion(String reason, Runnable someCodeWithAsserts, long timeout, long poll) {
+  public static void repeatAssertion(String reason, Runnable someCodeWithAsserts, long timeout,
+      long poll) {
     execAsStep(
         String.format(
             "REPEATABLE (%d ms): %s",
@@ -87,7 +87,8 @@ public class HamcrestWrapper {
     );
   }
 
-  public static <T> void delayAssertion(String reason, T actual, Matcher<? super T> matcher, long delay) {
+  public static <T> void delayAssertion(String reason, T actual, Matcher<? super T> matcher,
+      long delay) {
     try {
       Thread.sleep(delay);
     } catch (InterruptedException ex) {

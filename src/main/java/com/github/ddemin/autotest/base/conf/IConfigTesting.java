@@ -1,6 +1,7 @@
 package com.github.ddemin.autotest.base.conf;
 
-import ru.qatools.properties.*;
+import ru.qatools.properties.DefaultValue;
+import ru.qatools.properties.Property;
 
 public interface IConfigTesting {
 
