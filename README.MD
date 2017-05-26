@@ -1,5 +1,12 @@
-Useful libraries for tests automation based on Java programming language and different libraries
+DEPRECATED: Useful libraries for tests automation based on Java programming language and different libraries
 ===================
+
+DEPRECATED
+------------- 
+see:
+- https://github.com/ddemin/ta-testng-base
+- https://github.com/ddemin/ta-api-base
+- https://github.com/ddemin/ta-web-base
 
 Parts
 ------------- 
