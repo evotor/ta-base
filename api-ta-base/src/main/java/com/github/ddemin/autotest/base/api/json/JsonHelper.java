@@ -9,6 +9,7 @@ import java.util.*;
 import com.fasterxml.jackson.core.*;
 import com.jayway.jsonpath.*;
 import lombok.extern.slf4j.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Slf4j
 public class JsonHelper {
@@ -36,6 +37,16 @@ public class JsonHelper {
       throw new RuntimeException(ex);
     }
   }
+
+  public static <T> T fromJsonWh(String json, TypeReference<T> ref) {
+    try {
+      return JsonMapperFactory.getDefaultMapper().readerFor(ref).readValue(json);
+    } catch (IOException ex) {
+      log.error(ex.getMessage(), ex);
+      throw new RuntimeException(ex);
+    }
+  }
+
 
   public static String toJson(Object entity) {
     if (entity instanceof String) {
