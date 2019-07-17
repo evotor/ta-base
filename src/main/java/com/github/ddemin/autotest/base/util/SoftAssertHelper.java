@@ -41,21 +41,17 @@ public class SoftAssertHelper {
       return;
     }
 
-    String combinedTrace = Joiner.on(System.lineSeparator())
-        .join(ASSERTIONS_SET.get()
+    String combinedTrace = ASSERTIONS_SET.get()
             .stream()
             .map(ExceptionUtils::getStackTrace)
-            .collect(Collectors.toList())
-        );
+            .collect(Collectors.joining(System.lineSeparator()));
     AllureHelper.attachText("Soft assertions trace", combinedTrace);
 
     String combinedMsg = System.lineSeparator()
-        + Joiner.on(System.lineSeparator())
-        .join(ASSERTIONS_SET.get()
+        + ASSERTIONS_SET.get()
             .stream()
             .map(Throwable::getMessage)
-            .collect(Collectors.toList())
-        );
+            .collect(Collectors.joining(System.lineSeparator()));
 
     reset();
 

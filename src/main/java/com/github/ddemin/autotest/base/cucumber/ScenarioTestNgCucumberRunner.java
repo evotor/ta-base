@@ -1,7 +1,6 @@
 package com.github.ddemin.autotest.base.cucumber;
 
 import com.github.ddemin.autotest.base.conf.BaseConfig;
-import com.google.common.base.Splitter;
 import cucumber.api.testng.CucumberExceptionWrapper;
 import cucumber.api.testng.CucumberFeatureWrapperImpl;
 import cucumber.api.testng.FeatureResultListener;
@@ -18,6 +17,7 @@ import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberTagStatement;
 import gherkin.formatter.model.Tag;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.util.Pair;
@@ -60,10 +60,8 @@ public class ScenarioTestNgCucumberRunner extends TestNGCucumberRunner {
 
   private static boolean isScenarioAllowedByName(CucumberTagStatement statement) {
     if (BaseConfig.TESTING.getScenarios() != null && !BaseConfig.TESTING.getScenarios().isEmpty()) {
-      List<String> scenariosToRun =
-          Splitter
-              .on(BaseConfig.TESTING.getScenariosDelimiter())
-              .splitToList(BaseConfig.TESTING.getScenarios());
+      List<String> scenariosToRun = Arrays.asList(
+          BaseConfig.TESTING.getScenarios().split(BaseConfig.TESTING.getScenariosDelimiter()));
       return scenariosToRun.contains(statement.getGherkinModel().getName());
     } else {
       return true;
@@ -80,7 +78,7 @@ public class ScenarioTestNgCucumberRunner extends TestNGCucumberRunner {
         .collect(Collectors.toList());
 
     if (TAGS_PROPERTY.matches("\\[.*\\]")) {
-      providedTags = Splitter.on(',').splitToList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", ""));
+      providedTags = Arrays.asList(TAGS_PROPERTY.replaceAll("[\\[\\]]+", "").split(", "));
     } else {
       providedTags.add(TAGS_PROPERTY);
     }
